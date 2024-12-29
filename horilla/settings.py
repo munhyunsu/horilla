@@ -31,6 +31,7 @@ env = environ.Env(
     ),
     ALLOWED_HOSTS=(list, ["*"]),
     CSRF_TRUSTED_ORIGINS=(list, ["http://localhost:8000"]),
+    URL_PREFIX=(str,"/"),
 )
 
 env.read_env(os.path.join(BASE_DIR, ".env"), overwrite=True)
@@ -42,6 +43,9 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+
+# URL prefix (e.g., "/my-prefix/" or just "/")
+URL_PREFIX = env("URL_PREFIX")
 
 # Application definition
 
@@ -248,4 +252,7 @@ try:
         exec(f.read(), globals())
 except IOError:
     pass
+
+# URL_PREFIX processing
+URL_PREFIX = URL_PREFIX.strip("/") + "/"
 
