@@ -29,20 +29,20 @@ def health_check(request):
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("", include("base.urls")),
-    path("", include("horilla_automations.urls")),
-    path("", include("horilla_views.urls")),
-    path("employee/", include("employee.urls")),
-    path("horilla-widget/", include("horilla_widgets.urls")),
+    path(f"{settings.URL_PREFIX}admin/", admin.site.urls),
+    path(f"{settings.URL_PREFIX}accounts/", include("django.contrib.auth.urls")),
+    path(f"{settings.URL_PREFIX}accounts/", include("django.contrib.auth.urls")),
+    path(f"{settings.URL_PREFIX}", include("base.urls")),
+    path(f"{settings.URL_PREFIX}", include("horilla_automations.urls")),
+    path(f"{settings.URL_PREFIX}", include("horilla_views.urls")),
+    path(f"{settings.URL_PREFIX}employee/", include("employee.urls")),
+    path(f"{settings.URL_PREFIX}horilla-widget/", include("horilla_widgets.urls")),
     re_path(
-        "^inbox/notifications/", include(notifications.urls, namespace="notifications")
+        f"{settings.URL_PREFIX}inbox/notifications/", include(notifications.urls, namespace="notifications")
     ),
-    path("i18n/", include("django.conf.urls.i18n")),
-    path("api/", include("horilla_api.urls")),
-    path("health/", health_check),
+    path(f"{settings.URL_PREFIX}i18n/", include("django.conf.urls.i18n")),
+    path(f"{settings.URL_PREFIX}api/", include("horilla_api.urls")),
+    path(f"{settings.URL_PREFIX}health/", health_check),
 ]
 
 if settings.DEBUG:

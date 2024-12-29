@@ -15,7 +15,7 @@ from django.utils.translation import gettext_lazy as _
 from base.models import Company, TrackLateComeEarlyOut
 from base.urls import urlpatterns
 from employee.models import Employee, EmployeeGeneralSetting, EmployeeWorkInformation
-from horilla import horilla_apps
+from horilla import horilla_apps, settings
 from horilla.decorators import hx_request_required, login_required, permission_required
 from horilla.methods import get_horilla_model_class
 
@@ -284,3 +284,8 @@ def enable_late_come_early_out_tracking(request):
     tracking = TrackLateComeEarlyOut.objects.first()
     enable = tracking.is_enable if tracking else True
     return {"tracking": enable, "late_come_early_out_tracking": enable}
+
+
+def url_prefix(request):
+    return {"url_prefix": settings.URL_PREFIX}
+

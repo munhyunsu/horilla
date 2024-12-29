@@ -45,7 +45,7 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 # URL prefix (e.g., "/my-prefix/" or just "/")
-URL_PREFIX = env("URL_PREFIX")
+URL_PREFIX = (env("URL_PREFIX").strip("/") + "/") if env("URL_PREFIX").strip("/") else ""
 
 # Application definition
 
@@ -164,7 +164,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = f"{URL_PREFIX}static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_DIRS = [
@@ -173,7 +173,7 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
-MEDIA_URL = "/media/"
+MEDIA_URL = f"{URL_PREFIX}media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -192,7 +192,7 @@ MESSAGE_TAGS = {
 
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
-LOGIN_URL = "/login"
+LOGIN_URL = f"{URL_PREFIX}login"
 
 
 SIMPLE_HISTORY_REVERT_DISABLED = True
@@ -252,7 +252,4 @@ try:
         exec(f.read(), globals())
 except IOError:
     pass
-
-# URL_PREFIX processing
-URL_PREFIX = URL_PREFIX.strip("/") + "/"
 
