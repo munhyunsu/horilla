@@ -43,7 +43,7 @@
                             {% comment %} hx-get="{% url 'asset-request-allocation-view-search-filter' %}?asset_request_status=Requested"
                             hx-target="#dashboard" {% endcomment %}
                             onclick = 'localStorage.setItem("activeTabAsset", "#tab_1");
-                            window.location.href="/asset/asset-request-allocation-view/?asset_request_status=Requested";'
+                            window.location.href="/{{url_prefix}}asset/asset-request-allocation-view/?asset_request_status=Requested";'
                             id="asset_request_view"
                             >
                             <div class="oh-card-dashboard__header">

@@ -141,14 +141,14 @@ style="cursor: pointer;"
               {% if perms.base.change_shiftrequest or request.user|is_reportingmanager %}
                 <div class="oh-sticky-table__td" onclick="event.stopPropagation();">
                   {% if shift_request.approved == False and shift_request.canceled == False%}
-                    <a href="/shift-request-approve/{{shift_request.id}}/" onclick="return confirm('{% trans "Do you want to approve this request?" %}')" class='oh-btn oh-btn--info'>{% trans "Approve" %}</a></td>
+                    <a href="/{{url_prefix}}shift-request-approve/{{shift_request.id}}/" onclick="return confirm('{% trans "Do you want to approve this request?" %}')" class='oh-btn oh-btn--info'>{% trans "Approve" %}</a></td>
                   {% else %}
                     <button class='oh-btn oh-btn--info w-100' disabled>{% trans "Approve" %}</button></td>
                   {% endif %}
                 </div>
                 <div class="oh-sticky-table__td" onclick="event.stopPropagation();">
                   {% if shift_request.canceled == False %}
-                    <a href="/shift-request-cancel/{{shift_request.id}}/" onclick="return confirm('{% trans "Do you want to cancel this request?" %}')" class='oh-btn oh-btn--primary'>{% trans "Cancel" %}</a></td>
+                    <a href="/{{url_prefix}}shift-request-cancel/{{shift_request.id}}/" onclick="return confirm('{% trans "Do you want to cancel this request?" %}')" class='oh-btn oh-btn--primary'>{% trans "Cancel" %}</a></td>
                   {% else %}
                     <button disabled class='oh-btn oh-btn--primary w-100'>{% trans "Canceled" %}</button></td>
                   {% endif %}

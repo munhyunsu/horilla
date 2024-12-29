@@ -432,7 +432,7 @@
                                             <ion-icon name="checkmark-outline"></ion-icon>
                                         </button></td>
                                         {% else %}
-                                        <a href="/shift-allocation-request-approve/{{shift_request.id}}/"
+                                        <a href="/{{url_prefix}}shift-allocation-request-approve/{{shift_request.id}}/"
                                             onclick="return confirm('{% trans "Are you available for this shift reallocation?" %}')"
                                             class='oh-btn oh-btn--success w-100'
                                             title='{% trans "Available" %}'>
@@ -443,7 +443,7 @@
 
                                     {% if perms.base.change_shiftrequest or request.user|is_reportingmanager %}
                                         {% if shift_request.approved == False and shift_request.canceled == False %}
-                                            <a href="/shift-request-approve/{{shift_request.id}}/"
+                                            <a href="/{{url_prefix}}shift-request-approve/{{shift_request.id}}/"
                                                 onclick="return confirm('{% trans "Do you want to approve this request?" %}')"
                                                 class='oh-btn oh-btn--success w-100' title='{% trans "Approve" %}'>
                                                 <ion-icon class="me-1" name="checkmark-outline"></ion-icon>
@@ -461,7 +461,7 @@
                                                 <ion-icon name="close-circle-outline"></ion-icon>
                                             </button></td>
                                         {% else %}
-                                            <a href="/shift-allocation-request-cancel/{{shift_request.id}}/"
+                                            <a href="/{{url_prefix}}shift-allocation-request-cancel/{{shift_request.id}}/"
                                                 onclick="return confirm('{% trans "Are you not available for this shift reallocation?" %}')"
                                                 class='oh-btn oh-btn--danger w-100'
                                                 title='{% trans "Not available" %}'>
@@ -504,7 +504,7 @@
                                                 <ion-icon class="me-1" name="close-circle-outline"></ion-icon>
                                             </button></td>
                                         {% else %}
-                                            <a href="/shift-allocation-request-cancel/{{shift_request.id}}/"
+                                            <a href="/{{url_prefix}}shift-allocation-request-cancel/{{shift_request.id}}/"
                                                 onclick="return confirm('{% trans " Do you want to reject this request?" %}')"
                                                 class='oh-btn oh-btn--danger w-100' title='{% trans "Reject" %}'>
                                                 <ion-icon class="me-1" name="close-circle-outline"></ion-icon>

@@ -102,7 +102,7 @@
                                     class="oh-btn oh-btn--success w-50">
                                     {% trans "Approve" %}
                                 </a>
-                                <a href="/work-type-request-cancel/{{work_type_request.id}}/"
+                                <a href="/{{url_prefix}}work-type-request-cancel/{{work_type_request.id}}/"
                                     onclick="return confirm('{% trans 'Do you want to cancel this request?' %}')"
                                     class="oh-btn oh-btn--danger w-50" title="{% trans 'Reject' %}">
                                     {% trans "Reject" %}

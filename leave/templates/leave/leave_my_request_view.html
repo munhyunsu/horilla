@@ -1,6 +1,6 @@
 {% extends 'index.html' %} {% load i18n %} {% block content %}
 <p class="pb-3">
- <a href="/leave/my-request-creation" class="btn btn-primary">{% trans "Request" %}</a> {% trans "New Leave Request" %}
+ <a href="/{{url_prefix}}leave/my-request-creation" class="btn btn-primary">{% trans "Request" %}</a> {% trans "New Leave Request" %}
 </p>
 
 <table class="table table-striped">
@@ -31,14 +31,14 @@
       {% endfor %}
       {% if leave_request.leave_status == 'approved_with_extra_days' or leave_request.leave_status == 'approved'%}
       <td>
-        <a href="/leave/request-cancel/{{leave_request.id}}/" class="btn btn-primary"
+        <a href="/{{url_prefix}}leave/request-cancel/{{leave_request.id}}/" class="btn btn-primary"
           >{% trans "Cancel" %}</a
         >
       </td>
       {% endif %}
       <td>
         <a
-          href="/leave/my-request-view-one/{{leave_request.id}}/"
+          href="/{{url_prefix}}leave/my-request-view-one/{{leave_request.id}}/"
           class="btn btn-warning"
           >{% trans "View" %}</a
         >
@@ -46,7 +46,7 @@
       <td>
         {% if leave_request.leave_status == 'requested'%}
         <a
-          href="/leave/my-request-edit/{{leave_request.id}}/"
+          href="/{{url_prefix}}leave/my-request-edit/{{leave_request.id}}/"
           class="btn btn-primary"
           >{% trans "Edit" %}</a
         >
