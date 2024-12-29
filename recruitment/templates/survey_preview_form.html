@@ -17,7 +17,7 @@
       {% if question.type == "textarea" %}
       <div class="d-flex oh-card mt-2" data-question-id="{{question.id}}">
         <div class="drag-handle">
-            <img src="/static/images/ui/drag.svg" alt="">
+            <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
         </div>
         <div class="d-block w-100">
             {% if question.is_mandatory %}
@@ -37,7 +37,7 @@
       {% elif question.type == "options" %}
         <div class="d-flex oh-card" data-question-id="{{question.id}}">
             <div class="drag-handle">
-                <img src="/static/images/ui/drag.svg" alt="">
+                <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
             </div>
             <div class="d-block w-100">
                 {% if question.is_mandatory %}
@@ -63,7 +63,7 @@
         {% elif question.type == "multiple" %}
             <div class="d-flex oh-card" data-question-id="{{question.id}}">
                 <div class="drag-handle">
-                    <img src="/static/images/ui/drag.svg" alt="">
+                    <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
                 </div>
                 <div class="d-block w-100">
                     {% if question.is_mandatory %}
@@ -87,7 +87,7 @@
             {% elif question.type == "percentage" %}
                 <div class="d-flex oh-card" data-question-id="{{question.id}}">
                     <div class="drag-handle">
-                        <img src="/static/images/ui/drag.svg" alt="">
+                        <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
                     </div>
                     <div class="d-block w-100">
                         {% if question.is_mandatory %}
@@ -122,7 +122,7 @@
             {% elif question.type == "file" %}
               <div class="d-flex oh-card" data-question-id="{{question.id}}">
                 <div class="drag-handle">
-                    <img src="/static/images/ui/drag.svg" alt="">
+                    <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
                 </div>
                 <div class="d-block w-100">
                     {% if question.is_mandatory %}
@@ -142,7 +142,7 @@
             {% elif question.type == "date" %}
               <div class="d-flex oh-card" data-question-id="{{question.id}}">
                 <div class="drag-handle">
-                    <img src="/static/images/ui/drag.svg" alt="">
+                    <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
                 </div>
                 <div class="d-block w-100">
                     {% if question.is_mandatory %}
@@ -162,7 +162,7 @@
             {% elif question.type == "rating" %}
               <div class="d-flex oh-card" data-question-id="{{question.id}}">
                 <div class="drag-handle">
-                    <img src="/static/images/ui/drag.svg" alt="">
+                    <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
                 </div>
                 <div class="d-block w-100">
                     {% if question.is_mandatory %}
@@ -187,7 +187,7 @@
             {% elif question.type == "checkbox" %}
               <div class="d-flex oh-card" data-question-id="{{question.id}}">
                 <div class="drag-handle">
-                    <img src="/static/images/ui/drag.svg" alt="">
+                    <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
                 </div>
                 <div class="oh-input__group">
                     {% if question.is_mandatory %}
@@ -216,7 +216,7 @@
             {% else %}
               <div class="d-flex oh-card" data-question-id="{{question.id}}">
                 <div class="drag-handle">
-                    <img src="/static/images/ui/drag.svg" alt="">
+                    <img src="/{{url_prefix}}static/images/ui/drag.svg" alt="">
                 </div>
                 <div class="d-block w-100">
                     {% if question.is_mandatory %}
