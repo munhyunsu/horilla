@@ -52,6 +52,7 @@
 
 
 <div hidden id="statiUrl" data-url='{% static "" %}'></div>
+<div hidden id="urlPrefix" data-url="{{url_prefix}}"></div>
 
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <span class="logged-in" data-user-id="{{request.user.id}}"></span>
