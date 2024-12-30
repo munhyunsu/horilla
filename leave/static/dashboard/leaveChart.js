@@ -26,7 +26,7 @@ $(document).ready(function () {
           let value = e.chart.data.datasets[datasetIndex].data[dataIndex];
           let label = e.chart.data.labels[dataIndex];
           params =`?department_name=${label}&overall_leave=${$("#overAllLeaveSelect").val()}`;
-          window.location.href = "/leave/request-view" + params;
+          window.location.href = `/${urlPrefix}leave/request-view${params}`;
         },
       },
       plugins: [

@@ -228,7 +228,7 @@ if (feedbackStatusChartCtx != null) {
 				let value = e.chart.data.datasets[datasetIndex].data[dataIndex];
 				let label = e.chart.data.labels[dataIndex];
 				let params = "?status=" + label + "&archive=false";
-				window.location.href = "/pms/feedback-view" + params;
+				window.location.href = `/${urlPrefix}pms/feedback-view${params}`;
 			},
 		},
 		plugins: [{

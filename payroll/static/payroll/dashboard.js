@@ -97,7 +97,7 @@ $(document).ready(function () {
             var selectedDate = $("#monthYearField").val();
             const [year, month] = selectedDate.split("-");
             window.location.href =
-              "/payroll/view-payslip?month=" +
+              `/${urlPrefix}payroll/view-payslip?month=` +
               month +
               "&year=" +
               year +
@@ -226,7 +226,7 @@ $(document).ready(function () {
         if (activeBars.length > 0) {
           var clickedBarIndex = activeBars[0].index;
           var clickedLabel = departmentChartData.labels[clickedBarIndex];
-          window.location.href = `/payroll/view-payslip?start_date=${$(
+          window.location.href = `/${urlPrefix}payroll/view-payslip?start_date=${$(
             "#monthYearField"
           ).val()}-01&department=${clickedLabel}`;
         }
@@ -495,7 +495,7 @@ $(document).ready(function () {
 
   $("#department_total").on("click", ".department", function () {
     department = $(this).children(".department_item").text();
-    window.location.href = `/payroll/view-payslip?start_date=${$(
+    window.location.href = `/${urlPrefix}payroll/view-payslip?start_date=${$(
       "#monthYearField"
     ).val()}-01&department=${department}`;
   });

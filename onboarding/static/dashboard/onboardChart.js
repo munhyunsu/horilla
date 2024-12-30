@@ -43,7 +43,7 @@ $(document).ready(function () {
 							let label = e.chart.data.labels[dataIndex];
 							localStorage.removeItem("savedFilters");
 							window.location.href =
-								"/recruitment/candidate-view" +
+								`/${urlPrefix}recruitment/candidate-view` +
 								"?recruitment=" +
 								label +
 								"&start_onboard=true";
