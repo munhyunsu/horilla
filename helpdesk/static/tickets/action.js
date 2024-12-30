@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var TicketArchiveMessages = {
   ar: "",
   de: "",
@@ -135,7 +137,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -279,7 +281,7 @@ function selectAllTickets() {
   if (savedFilters && savedFilters["filterData"] !== null) {
     var filter = savedFilters["filterData"];
     $.ajax({
-      url: "/helpdesk/tickets-select-filter",
+      url: `/${urlPrefix}helpdesk/tickets-select-filter`,
       data: {
         page: "all",
         filter: JSON.stringify(filter),
@@ -305,7 +307,7 @@ function selectAllTickets() {
     });
   } else {
     $.ajax({
-      url: "/helpdesk/tickets-select-filter",
+      url: `/${urlPrefix}helpdesk/tickets-select-filter`,
       data: { page: "all", tableName: tableName },
       type: "GET",
       dataType: "json",
@@ -352,7 +354,7 @@ function unselectAllTickets() {
     $(".allocatedTicketsAll").prop("checked", false);
   }
   $.ajax({
-    url: "/helpdesk/tickets-select-filter",
+    url: `/${urlPrefix}helpdesk/tickets-select-filter`,
     data: { page: "all", filter: "{}", tableName: tableName },
     type: "GET",
     dataType: "json",
@@ -414,7 +416,7 @@ function ticketBulkArchive(e) {
           ids = JSON.parse($("#selectedTickets").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/helpdesk/tickets-bulk-archive?is_active=False",
+            url: `/${urlPrefix}helpdesk/tickets-bulk-archive?is_active=False`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -466,7 +468,7 @@ function ticketBulkUnArchive(e) {
           ids = JSON.parse($("#selectedTickets").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/helpdesk/tickets-bulk-archive?is_active=True",
+            url: `/${urlPrefix}helpdesk/tickets-bulk-archive?is_active=True`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -518,7 +520,7 @@ function ticketsBulkDelete(e) {
           ids = JSON.parse($("#selectedTickets").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/helpdesk/tickets-bulk-delete",
+            url: `/${urlPrefix}helpdesk/tickets-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),

@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -63,7 +65,7 @@ $('.stage').mouseup(function () {
   if (oldSequences !== JSON.stringify(newSequences)) {
     $.ajax({
       type: "POST",
-      url: "/recruitment/stage-sequence-update",
+      url: `/${urlPrefix}recruitment/stage-sequence-update`,
       data: {
         'csrfmiddlewaretoken': getCookie('csrftoken'),
         'recruitmentId':recruitmentId,
@@ -104,7 +106,7 @@ $("[data-container='candidate']").on('DOMNodeInserted', function (e) {
   if (candidateId != null) {
     $.ajax({
       type: "post",
-      url: `/recruitment/candidate-stage-update/${candidateId}/`,
+      url: `/${urlPrefix}recruitment/candidate-stage-update/${candidateId}/`,
       data: {
         'csrfmiddlewaretoken': getCookie('csrftoken'),
         'stageId':stageId
@@ -125,7 +127,7 @@ $('.schedule').change(function (e) {
   candidateId = $(this).data('candidate-id');
   $.ajax({
     type: "post",
-    url: `/recruitment/candidate-schedule-date-update`,
+    url: `/${urlPrefix}recruitment/candidate-schedule-date-update`,
     data:{
       'csrfmiddlewaretoken': getCookie('csrftoken'),
       'candidateId':candidateId,

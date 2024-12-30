@@ -1,4 +1,6 @@
 staticUrl = $("#statiUrl").attr("data-url");
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
     function available_asset_chart(dataSet) {
         var Asset_available_chart = document.getElementById("assetAvailableChart");
@@ -42,7 +44,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "GET",
-        url: "/asset/asset-available-chart",
+        url: `/${urlPrefix}asset/asset-available-chart`,
         dataType: "json",
         success: function (response) {
             available_asset_chart(response);
@@ -54,7 +56,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "GET",
-        url: "/asset/asset-category-chart",
+        url: `/${urlPrefix}asset/asset-category-chart`,
         dataType: "json",
         success: function (response) {
             asset_category_chart(response);

@@ -1,4 +1,5 @@
 staticUrl = $("#statiUrl").attr("data-url");
+urlPrefix = $("#urlPrefix").attr("data-url");
 
 $(document).ready(function () {
   var index = 0;
@@ -69,7 +70,7 @@ $(document).ready(function () {
 
   function stage_chart_view(recuitment) {
     $.ajax({
-      url: "/onboarding/stage-chart?recruitment=" + recuitment,
+      url: `/${urlPrefix}onboarding/stage-chart?recruitment=${recuitment}`,
       type: "GET",
       dataType: "json",
       headers: {

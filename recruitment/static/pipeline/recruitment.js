@@ -1,4 +1,4 @@
-
+urlPrefix = $("#urlPrefix").attr("data-url");
 
 $(document).ready(function () {
   function getCookie(name) {
@@ -66,7 +66,7 @@ $(document).ready(function () {
     if (oldSequences !== JSON.stringify(newSequences)) {
       $.ajax({
         type: "POST",
-        url: "/recruitment/stage-sequence-update",
+        url: `/${urlPrefix}recruitment/stage-sequence-update`,
         data: {
           'csrfmiddlewaretoken': getCookie('csrftoken'),
           'recruitmentId':recruitmentId,
@@ -107,7 +107,7 @@ $(document).ready(function () {
     if (candidateId != null) {
       $.ajax({
         type: "post",
-        url: `/recruitment/candidate-stage-update/${candidateId}/`,
+        url: `/${urlPrefix}recruitment/candidate-stage-update/${candidateId}/`,
         data: {
           'csrfmiddlewaretoken': getCookie('csrftoken'),
           'stageId':stageId
@@ -132,7 +132,7 @@ $(document).ready(function () {
     candidateId = $(this).data('candidate-id');
     $.ajax({
       type: "post",
-      url: `/recruitment/candidate-schedule-date-update`,
+      url: `/${urlPrefix}recruitment/candidate-schedule-date-update`,
       data:{
         'csrfmiddlewaretoken': getCookie('csrftoken'),
         'candidateId':candidateId,

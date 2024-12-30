@@ -1,4 +1,6 @@
 staticUrl = $("#statiUrl").attr("data-url");
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
   // initializing the department overtime chart.
   var departmentChartData = {
@@ -36,7 +38,7 @@ $(document).ready(function () {
   $("#attendance_month").val(formattedDate);
 
   $.ajax({
-    url: "/attendance/dashboard-attendance",
+    url: `/${urlPrefix}attendance/dashboard-attendance`,
     type: "GET",
     success: function (response) {
       // Code to handle the response
@@ -66,7 +68,7 @@ $(document).ready(function () {
     let end_date = $("#department_month2").val();
     $.ajax({
       type: "GET",
-      url: "/attendance/department-overtime-chart",
+      url: `/${urlPrefix}attendance/department-overtime-chart`,
       dataType: "json",
       data: {
         date: date,
@@ -159,7 +161,7 @@ $(document).ready(function () {
   // Ajax request to create department overtime chart initially.
 
   $.ajax({
-    url: "/attendance/department-overtime-chart",
+    url: `/${urlPrefix}attendance/department-overtime-chart`,
     type: "GET",
     dataType: "json",
     headers: {
@@ -263,7 +265,7 @@ function createAttendanceChart(dataSet, labels) {
           localStorage.removeItem("savedFilters");
           if (label == "On Time") {
             $.ajax({
-              url: "/attendance/on-time-view" + parms,
+              url: `/${urlPrefix}attendance/on-time-view${parms}`,
               type: "GET",
               data: {
                 input_type: type,
@@ -298,7 +300,7 @@ function changeMonth() {
   let end_date = $("#attendance_month2").val();
   $.ajax({
     type: "GET",
-    url: "/attendance/dashboard-attendance",
+    url: `/${urlPrefix}attendance/dashboard-attendance`,
     dataType: "json",
     data: {
       date: date,
@@ -351,7 +353,7 @@ window["pendingHoursCanvas"] = chart;
 function pendingHourChart(year, month) {
   $.ajax({
     type: "get",
-    url: "/attendance/pending-hours",
+    url: `/${urlPrefix}attendance/pending-hours`,
     data: { month: month, year: year },
     success: function (response) {
       var ctx = document.getElementById("pendingHoursCanvas");

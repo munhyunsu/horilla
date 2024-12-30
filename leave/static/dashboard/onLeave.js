@@ -1,7 +1,9 @@
+// urlPrefix = $("#urlPrefix").attr("data-url");
+//
 // $(document).ready(function () {
 //   $.ajax({
 //     type: "GET",
-//     url: "/leave/employee-leave",
+//     url: `/${urlPrefix}leave/employee-leave`,
 //     dataType: "json",
 //     success: function (response) {
 //       if (response.employees.length) {

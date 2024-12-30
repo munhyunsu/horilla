@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var downloadMessages = {
     ar: "هل ترغب في تنزيل القالب؟",
     de: "Möchten Sie die Vorlage herunterladen?",
@@ -107,7 +109,7 @@ function getCurrentLanguageCode(callback) {
     } else {
         $.ajax({
             type: "GET",
-            url: "/employee/get-language-code/",
+            url: `/${urlPrefix}employee/get-language-code/`,
             success: function (response) {
                 var ajaxLanguageCode = response.language_code;
                 $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -278,7 +280,7 @@ function selectAllHourAcconts() {
         var filter = savedFilters["filterData"];
 
         $.ajax({
-            url: "/attendance/hour-attendance-select-filter",
+            url: `/${urlPrefix}attendance/hour-attendance-select-filter`,
             data: { page: "all", filter: JSON.stringify(filter) },
             type: "GET",
             dataType: "json",
@@ -308,7 +310,7 @@ function selectAllHourAcconts() {
         });
     } else {
         $.ajax({
-            url: "/attendance/hour-attendance-select",
+            url: `/${urlPrefix}attendance/hour-attendance-select`,
             data: { page: "all" },
             type: "GET",
             dataType: "json",
@@ -385,7 +387,7 @@ function unselectAllHourAcconts() {
     $("#selectedInstances").attr("data-clicked", 0);
 
     $.ajax({
-        url: "/attendance/hour-attendance-select",
+        url: `/${urlPrefix}attendance/hour-attendance-select`,
         data: { page: "all", filter: "{}" },
         type: "GET",
         dataType: "json",
@@ -584,7 +586,7 @@ function selectAllActivity() {
         var filter = savedFilters["filterData"];
 
         $.ajax({
-            url: "/attendance/activity-attendance-select-filter",
+            url: `/${urlPrefix}attendance/activity-attendance-select-filter`,
             data: { page: "all", filter: JSON.stringify(filter) },
             type: "GET",
             dataType: "json",
@@ -617,7 +619,7 @@ function selectAllActivity() {
         $("#selectedActivity").attr("data-clicked", 1);
 
         $.ajax({
-            url: "/attendance/activity-attendance-select",
+            url: `/${urlPrefix}attendance/activity-attendance-select`,
             data: { page: "all" },
             type: "GET",
             dataType: "json",
@@ -657,7 +659,7 @@ function selectAllActivity() {
 function unselectAllActivity() {
     $("#selectedActivity").attr("data-clicked", 0);
     $.ajax({
-        url: "/attendance/activity-attendance-select",
+        url: `/${urlPrefix}attendance/activity-attendance-select`,
         data: { page: "all", filter: "{}" },
         type: "GET",
         dataType: "json",
@@ -706,7 +708,7 @@ $(".attendance-info-import").click(function (e) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "/attendance/attendance-excel",
+                    url: `/${urlPrefix}attendance/attendance-excel`,
                     dataType: "binary",
                     xhrFields: {
                         responseType: "blob",
@@ -743,7 +745,7 @@ function selectAllLatecome() {
         var filter = savedFilters["filterData"];
 
         $.ajax({
-            url: "/attendance/latecome-attendance-select-filter",
+            url: `/${urlPrefix}attendance/latecome-attendance-select-filter`,
             data: { page: "all", filter: JSON.stringify(filter) },
             type: "GET",
             dataType: "json",
@@ -776,7 +778,7 @@ function selectAllLatecome() {
         $("#selectedLatecome").attr("data-clicked", 1);
 
         $.ajax({
-            url: "/attendance/latecome-attendance-select",
+            url: `/${urlPrefix}attendance/latecome-attendance-select`,
             data: { page: "all" },
             type: "GET",
             dataType: "json",
@@ -819,7 +821,7 @@ function unselectAllLatecome() {
     $("#selectedLatecome").attr("data-clicked", 0);
 
     $.ajax({
-        url: "/attendance/latecome-attendance-select",
+        url: `/${urlPrefix}attendance/latecome-attendance-select`,
         data: { page: "all", filter: "{}" },
         type: "GET",
         dataType: "json",
@@ -933,7 +935,7 @@ $("#validateAttendances").click(function (e) {
                     });
                     $.ajax({
                         type: "POST",
-                        url: "/attendance/validate-bulk-attendance",
+                        url: `/${urlPrefix}attendance/validate-bulk-attendance`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),
@@ -981,7 +983,7 @@ $("#approveOt").click(function (e) {
                     });
                     $.ajax({
                         type: "POST",
-                        url: "/attendance/approve-bulk-overtime",
+                        url: `/${urlPrefix}attendance/approve-bulk-overtime`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),
@@ -1021,7 +1023,7 @@ $("#exportAccounts").click(function (e) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "/attendance/attendance-account-info-export",
+                    url: `/${urlPrefix}attendance/attendance-account-info-export`,
                     data: {
                         ids: JSON.stringify(ids),
                     },
@@ -1069,7 +1071,7 @@ $("#exportActivity").click(function (e) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "/attendance/attendance-activity-info-export",
+                    url: `/${urlPrefix}attendance/attendance-activity-info-export`,
                     data: {
                         ids: JSON.stringify(ids),
                     },
@@ -1117,7 +1119,7 @@ $("#exportLatecome").click(function (e) {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "/attendance/late-come-early-out-info-export",
+                    url: `/${urlPrefix}attendance/late-come-early-out-info-export`,
                     data: {
                         ids: JSON.stringify(ids),
                     },
@@ -1242,7 +1244,7 @@ $("#hourAccountbulkDelete").click(function (e) {
                     ids = JSON.parse($("#selectedInstances").attr("data-ids"));
                     $.ajax({
                         type: "POST",
-                        url: "/attendance/attendance-account-bulk-delete",
+                        url: `/${urlPrefix}attendance/attendance-account-bulk-delete`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),
@@ -1290,7 +1292,7 @@ $("#attendanceActivityDelete").click(function (e) {
                     ids = JSON.parse($("#selectedActivity").attr("data-ids"));
                     $.ajax({
                         type: "POST",
-                        url: "/attendance/attendance-activity-bulk-delete",
+                        url: `/${urlPrefix}attendance/attendance-activity-bulk-delete`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),
@@ -1338,7 +1340,7 @@ $("#lateComeBulkDelete").click(function (e) {
                     ids = JSON.parse($("#selectedLatecome").attr("data-ids"));
                     $.ajax({
                         type: "POST",
-                        url: "/attendance/late-come-early-out-bulk-delete",
+                        url: `/${urlPrefix}attendance/late-come-early-out-bulk-delete`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),
@@ -1410,7 +1412,7 @@ function selectAllReqAttendance() {
         // Convert the dictionary to a query string
         var queryString = dictToQueryString(filter);
         $.ajax({
-            url: `/attendance/select-all-filter-attendance-request?${queryString}`,
+            url: `/${urlPrefix}attendance/select-all-filter-attendance-request?${queryString}`,
             data: { page: "all", filter: JSON.stringify(filter) },
             type: "GET",
             dataType: "json",
@@ -1441,7 +1443,7 @@ function selectAllReqAttendance() {
         });
     } else {
         $.ajax({
-            url: "/attendance/select-all-filter-attendance-request",
+            url: `/${urlPrefix}attendance/select-all-filter-attendance-request`,
             data: { page: "all" },
             type: "GET",
             dataType: "json",
@@ -1483,7 +1485,7 @@ function unselectAllReqAttendance() {
     $("#selectedInstances").attr("data-clicked", 0);
 
     $.ajax({
-        url: "/attendance/select-all-filter-attendance-request",
+        url: `/${urlPrefix}attendance/select-all-filter-attendance-request`,
         data: { page: "all", filter: "{}" },
         type: "GET",
         dataType: "json",
@@ -1545,7 +1547,7 @@ $("#reqAttendanceBulkApprove").click(function (e) {
                     ids = JSON.parse($("#selectedInstances").attr("data-ids") || "[]");
                     $.ajax({
                         type: "POST",
-                        url: "/attendance/bulk-approve-attendance-request",
+                        url: `/${urlPrefix}attendance/bulk-approve-attendance-request`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),
@@ -1589,7 +1591,7 @@ $("#reqAttendanceBulkReject").click(function (e) {
                     ids = JSON.parse($("#selectedInstances").attr("data-ids") || "[]");
                     $.ajax({
                         type: "POST",
-                        url: "/attendance/bulk-reject-attendance-request",
+                        url: `/${urlPrefix}attendance/bulk-reject-attendance-request`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),

@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var excelMessages = {
     ar: "هل ترغب في تنزيل ملف Excel؟",
     de: "Möchten Sie die Excel-Datei herunterladen?",
@@ -173,7 +175,7 @@ function selectAllEmployees() {
     var filterQuery = $("#selectAllEmployees").data("pd");
     if (savedFilters && savedFilters["filterData"] !== null) {
         $.ajax({
-            url: "/employee/employee-select-filter?" + filterQuery,
+            url: `/${urlPrefix}employee/employee-select-filter?${filterQuery}`,
             data: { page: "all" },
             type: "GET",
             dataType: "json",
@@ -205,7 +207,7 @@ function selectAllEmployees() {
         });
     } else {
         $.ajax({
-            url: "/employee/employee-select",
+            url: `/${urlPrefix}employee/employee-select`,
             data: { page: "all" },
             type: "GET",
             dataType: "json",
@@ -248,7 +250,7 @@ function unselectAllEmployees() {
     $("#selectedInstances").attr("data-clicked", 0);
 
     $.ajax({
-        url: "/employee/employee-select",
+        url: `/${urlPrefix}employee/employee-select`,
         data: { page: "unselect", filter: "{}" },
         type: "GET",
         dataType: "json",
@@ -304,7 +306,7 @@ $("#exportEmployees").click(function (e) {
         if (result.isConfirmed) {
             $.ajax({
                 type: "GET",
-                url: "/employee/work-info-export",
+                url: `/${urlPrefix}employee/work-info-export`,
                 data: {
                     ids: JSON.stringify(ids),
                 },
@@ -388,7 +390,7 @@ $("#archiveEmployees").click(function (e) {
                 ids = JSON.parse($("#selectedInstances").attr("data-ids"));
                 $.ajax({
                     type: "POST",
-                    url: "/employee/employee-bulk-archive?is_active=False",
+                    url: `/${urlPrefix}employee/employee-bulk-archive?is_active=False`,
                     data: {
                         csrfmiddlewaretoken: getCookie("csrftoken"),
                         ids: JSON.stringify(ids),
@@ -444,7 +446,7 @@ $("#unArchiveEmployees").click(function (e) {
 
                 $.ajax({
                     type: "POST",
-                    url: "/employee/employee-bulk-archive?is_active=True",
+                    url: `/${urlPrefix}employee/employee-bulk-archive?is_active=True`,
                     data: {
                         csrfmiddlewaretoken: getCookie("csrftoken"),
                         ids: JSON.stringify(ids),
@@ -499,7 +501,7 @@ $("#deleteEmployees").click(function (e) {
 
                 $.ajax({
                     type: "POST",
-                    url: "/employee/employee-bulk-delete",
+                    url: `/${urlPrefix}employee/employee-bulk-delete`,
                     data: {
                         csrfmiddlewaretoken: getCookie("csrftoken"),
                         ids: JSON.stringify(ids),

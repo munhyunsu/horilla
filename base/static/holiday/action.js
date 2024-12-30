@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var rowMessages = {
   ar: " تم الاختيار",
   de: " Ausgewählt",
@@ -53,7 +55,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -143,7 +145,7 @@ function selectAllHolidays() {
   if (savedFilters && savedFilters["filterData"] !== null) {
     var filter = savedFilters["filterData"];
     $.ajax({
-      url: "/holiday-select-filter",
+      url: `/${urlPrefix}holiday-select-filter`,
       data: { page: "all", filter: JSON.stringify(filter) },
       type: "GET",
       dataType: "json",
@@ -171,7 +173,7 @@ function selectAllHolidays() {
     });
   } else {
     $.ajax({
-      url: "/holiday-select",
+      url: `/${urlPrefix}holiday-select`,
       data: { page: "all" },
       type: "GET",
       dataType: "json",
@@ -207,7 +209,7 @@ function selectAllHolidays() {
 function unselectAllHolidays() {
   $("#selectedHolidays").attr("data-clicked", 0);
   $.ajax({
-    url: "/holiday-select",
+    url: `/${urlPrefix}holiday-select`,
     data: { page: "all", filter: "{}" },
     type: "GET",
     dataType: "json",
@@ -258,7 +260,7 @@ function exportHolidays() {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "/holiday-info-export",
+          url: `/${urlPrefix}holiday-info-export`,
           data: {
             ids: JSON.stringify(ids),
           },
@@ -342,7 +344,7 @@ $(".holidaysInfoImport").click(function (e) {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "holidays-excel-template",
+          url: `/${urlPrefix}holidays-excel-template`,
           dataType: "binary",
           xhrFields: {
             responseType: "blob",

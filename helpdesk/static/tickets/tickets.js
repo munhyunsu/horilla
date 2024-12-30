@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(`.change-ticket`).mouseup(function (e) {
     if (!$(e.target).hasClass('action-button')){
       e.preventDefault()
@@ -8,7 +10,7 @@ $(`.change-ticket`).mouseup(function (e) {
         if (ticketID != null) {
           $.ajax({
             type: "post",
-            url: `/helpdesk/change-ticket-status/${ticketID}/`,
+            url: `/${urlPrefix}helpdesk/change-ticket-status/${ticketID}/`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               "status": status,

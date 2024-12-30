@@ -1,3 +1,4 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
 
 var deleteUsersMessages = {
     ar: "هل ترغب حقًا في حذف جميع الحضور المحددة؟",
@@ -17,7 +18,7 @@ var nousersdeleteMessages = {
 function getCurrentLanguageCode(callback) {
     $.ajax({
         type: "GET",
-        url: "/employee/get-language-code/",
+        url: `/${urlPrefix}employee/get-language-code/`,
         success: function (response) {
             var languageCode = response.language_code;
             callback(languageCode); // Pass the language code to the callback function
@@ -77,7 +78,7 @@ $("#deleteBioUsers").click(function (e) {
                     $("#BiometricDeviceTestModal").toggleClass("oh-modal--show")
                     $.ajax({
                         type: "POST",
-                        url: "/biometric/biometric-users-bulk-delete",
+                        url: `/${urlPrefix}biometric/biometric-users-bulk-delete`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),
@@ -129,7 +130,7 @@ $("#deleteCosecUsers").click(function (e) {
                     $("#BiometricDeviceTestModal").toggleClass("oh-modal--show");
                     $.ajax({
                         type: "POST",
-                        url: "/biometric/cosec-users-bulk-delete",
+                        url: `/${urlPrefix}biometric/cosec-users-bulk-delete`,
                         data: {
                             csrfmiddlewaretoken: getCookie("csrftoken"),
                             ids: JSON.stringify(ids),

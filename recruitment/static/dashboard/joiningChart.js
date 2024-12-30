@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
     function hiringChart(dataSet, labels) {
       const data = {
@@ -24,7 +26,7 @@ $(document).ready(function () {
       var year = $("#year").val()
 
       $.ajax({
-        url: "/recruitment/dashboard-hiring",
+        url: `/${urlPrefix}recruitment/dashboard-hiring`,
         type: "GET",
         data: {
           id : year

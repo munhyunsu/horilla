@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var confirmModal = {
     ar: "تأكيد",
     de: "Bestätigen",
@@ -47,7 +49,7 @@ function attendanceDateChange(selectElement) {
 
     $.ajax({
         type: "post",
-        url: "/attendance/update-date-details",
+        url: `/${urlPrefix}attendance/update-date-details`,
         data: {
             csrfmiddlewaretoken: getCookie("csrftoken"),
             attendance_date: selectedDate,
@@ -63,7 +65,7 @@ function getAssignedLeave(employeeElement) {
     var employeeId = employeeElement.val();
     $.ajax({
         type: "get",
-        url: "/payroll/get-assigned-leaves",
+        url: `/${urlPrefix}payroll/get-assigned-leaves`,
         data: { employeeId: employeeId },
         dataType: "json",
         success: function (response) {
@@ -261,7 +263,7 @@ function removeId(element, storeKey = "selectedInstances") {
 function bulkStageUpdate(canIds, stageId, preStageId) {
     $.ajax({
         type: "POST",
-        url: "/recruitment/candidate-stage-change?bulk=True",
+        url: `/${urlPrefix}recruitment/candidate-stage-change?bulk=True`,
         data: {
             csrfmiddlewaretoken: getCookie("csrftoken"),
             canIds: JSON.stringify(canIds),
@@ -287,7 +289,7 @@ function bulkStageUpdate(canIds, stageId, preStageId) {
 function updateCandStage(canIds, stageId, preStageId) {
     $.ajax({
         type: "POST",
-        url: "/recruitment/candidate-stage-change?bulk=false",
+        url: `/${urlPrefix}recruitment/candidate-stage-change?bulk=false`,
         data: {
             csrfmiddlewaretoken: getCookie("csrftoken"),
             canIds: canIds,

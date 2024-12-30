@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var archiveMessages = {
   ar: "هل ترغب حقاً في أرشفة كل التعليقات المحددة؟",
   de: "Möchten Sie wirklich alle ausgewählten Rückmeldungen archivieren?",
@@ -81,7 +83,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -135,7 +137,7 @@ $("#archiveFeedback").click(function (e) {
           });
           $.ajax({
             type: "POST",
-            url: "/pms/feedback-bulk-archive?is_active=False",
+            url: `/${urlPrefix}pms/feedback-bulk-archive?is_active=False`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -193,7 +195,7 @@ $("#unArchiveFeedback").click(function (e) {
 
           $.ajax({
             type: "POST",
-            url: "/pms/feedback-bulk-archive?is_active=True",
+            url: `/${urlPrefix}pms/feedback-bulk-archive?is_active=True`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -246,7 +248,7 @@ $("#deleteFeedback").click(function (e) {
 
           $.ajax({
             type: "POST",
-            url: "/pms/feedback-bulk-delete",
+            url: `/${urlPrefix}pms/feedback-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),

@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var excelMessages = {
   ar: "هل ترغب في تنزيل ملف Excel؟",
   de: "Möchten Sie die Excel-Datei herunterladen?",
@@ -110,7 +112,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -196,7 +198,7 @@ $("#exportRShifts").click(function (e) {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "/rotating-shift-assign-info-export",
+          url: `/${urlPrefix}rotating-shift-assign-info-export`,
           data: {
             ids: JSON.stringify(ids),
           },
@@ -257,7 +259,7 @@ $("#archiveRotatingShiftAssign").click(function (e) {
           ids = JSON.parse($("#selectedRShifts").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/rotating-shift-assign-bulk-archive?is_active=False",
+            url: `/${urlPrefix}rotating-shift-assign-bulk-archive?is_active=False`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -308,7 +310,7 @@ $("#unArchiveRotatingShiftAssign").click(function (e) {
           ids = JSON.parse($("#selectedRShifts").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/rotating-shift-assign-bulk-archive?is_active=True",
+            url: `/${urlPrefix}rotating-shift-assign-bulk-archive?is_active=True`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -359,7 +361,7 @@ $("#deleteRotatingShiftAssign").click(function (e) {
           ids = JSON.parse($("#selectedRShifts").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/rotating-shift-assign-bulk-delete",
+            url: `/${urlPrefix}rotating-shift-assign-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -447,7 +449,7 @@ $("#exportRWorktypes").click(function (e) {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "/rotating-work-type-assign-export",
+          url: `/${urlPrefix}rotating-work-type-assign-export`,
           data: {
             ids: JSON.stringify(ids),
           },
@@ -574,7 +576,7 @@ $("#deleteRotatingWorkTypeAssign").click(function (e) {
           ids = JSON.parse($("#selectedRWorktypes").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/rotating-work-type-assign-bulk-delete",
+            url: `/${urlPrefix}rotating-work-type-assign-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -661,7 +663,7 @@ function exportShiftRequests() {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "/shift-request-info-export",
+          url: `/${urlPrefix}shift-request-info-export`,
           data: {
             ids: JSON.stringify(ids),
           },
@@ -722,7 +724,7 @@ $("#approveShiftRequest").click(function (e) {
           ids = JSON.parse($("#selectedShifts").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/shift-request-bulk-approve",
+            url: `/${urlPrefix}shift-request-bulk-approve`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -773,7 +775,7 @@ $("#cancelShiftRequest").click(function (e) {
           ids = JSON.parse($("#selectedShifts").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/shift-request-bulk-cancel",
+            url: `/${urlPrefix}shift-request-bulk-cancel`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -824,7 +826,7 @@ $("#deleteShiftRequest").click(function (e) {
           ids = JSON.parse($("#selectedShifts").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/shift-request-bulk-delete",
+            url: `/${urlPrefix}shift-request-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -912,7 +914,7 @@ function exportWorkTypeRequets() {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "/work-type-request-info-export",
+          url: `/${urlPrefix}work-type-request-info-export`,
           data: {
             ids: JSON.stringify(ids),
           },
@@ -973,7 +975,7 @@ $("#approveWorkTypeRequest").click(function (e) {
           ids = JSON.parse($("#selectedWorktypes").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/work-type-request-bulk-approve",
+            url: `/${urlPrefix}work-type-request-bulk-approve`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -1024,7 +1026,7 @@ $("#cancelWorkTypeRequest").click(function (e) {
           ids = JSON.parse($("#selectedWorktypes").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/work-type-request-bulk-cancel",
+            url: `/${urlPrefix}work-type-request-bulk-cancel`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -1076,7 +1078,7 @@ $("#deleteWorkTypeRequest").click(function (e) {
           ids = JSON.parse($("#selectedWorktypes").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/work-type-request-bulk-delete",
+            url: `/${urlPrefix}work-type-request-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),

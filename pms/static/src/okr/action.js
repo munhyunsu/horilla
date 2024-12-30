@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var archiveMessages = {
   ar: "هل ترغب حقاً في أرشفة جميع الأهداف المحددة؟",
   de: "Möchten Sie wirklich alle ausgewählten Ziele archivieren?",
@@ -97,7 +99,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -215,7 +217,7 @@ function selectAllObjectives() {
   if (savedFilters && savedFilters["filterData"] !== null) {
     var filter = savedFilters["filterData"];
     $.ajax({
-      url: "/pms/objective-select-filter",
+      url: `/${urlPrefix}pms/objective-select-filter`,
       data: {
         page: "all",
         filter: JSON.stringify(filter),
@@ -241,7 +243,7 @@ function selectAllObjectives() {
     });
   } else {
     $.ajax({
-      url: "/pms/objective-select",
+      url: `/${urlPrefix}pms/objective-select`,
       data: { page: "all", tableName: tableName },
       type: "GET",
       dataType: "json",
@@ -284,7 +286,7 @@ function unselectAllObjectives() {
     $(".own-objects").prop("checked", false);
   }
   $.ajax({
-    url: "/pms/objective-select",
+    url: `/${urlPrefix}pms/objective-select`,
     data: { page: "all", filter: "{}", tableName: tableName },
     type: "GET",
     dataType: "json",
@@ -346,7 +348,7 @@ $("#archiveObjectives").click(function (e) {
           ids = JSON.parse($("#selectedObjectives").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/pms/objective-bulk-archive?is_active=False",
+            url: `/${urlPrefix}pms/objective-bulk-archive?is_active=False`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -398,7 +400,7 @@ $("#unArchiveObjectives").click(function (e) {
           ids = JSON.parse($("#selectedObjectives").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/pms/objective-bulk-archive?is_active=True",
+            url: `/${urlPrefix}pms/objective-bulk-archive?is_active=True`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -450,7 +452,7 @@ $("#deleteObjectives").click(function (e) {
           ids = JSON.parse($("#selectedObjectives").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/pms/objective-bulk-delete",
+            url: `/${urlPrefix}pms/objective-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),

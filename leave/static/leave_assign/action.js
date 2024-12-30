@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var rowMessages = {
   ar: " تم الاختيار",
   de: " Ausgewählt",
@@ -51,7 +53,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -141,7 +143,7 @@ $("#selectAllLeaves").click(function () {
   if (savedFilters && savedFilters["filterData"] !== null) {
     var filter = savedFilters["filterData"];
     $.ajax({
-      url: "/leave/assigned-leave-select-filter",
+      url: `/${urlPrefix}leave/assigned-leave-select-filter`,
       data: { page: "all", filter: JSON.stringify(filter) },
       type: "GET",
       dataType: "json",
@@ -162,7 +164,7 @@ $("#selectAllLeaves").click(function () {
     });
   } else {
     $.ajax({
-      url: "/leave/assigned-leave-select",
+      url: `/${urlPrefix}leave/assigned-leave-select`,
       data: { page: "all" },
       type: "GET",
       dataType: "json",
@@ -194,7 +196,7 @@ $("#unselectAllLeaves").click(function (e) {
   $("#unselectAllLeaves").click(function () {
     $("#selectedLeaves").attr("data-clicked", 0);
     $.ajax({
-      url: "/leave/assigned-leave-select",
+      url: `/${urlPrefix}leave/assigned-leave-select`,
       data: { page: "all", filter: "{}" },
       type: "GET",
       dataType: "json",
@@ -238,7 +240,7 @@ $("#exportAssignedLeaves").click(function (e) {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "/leave/assigned-leaves-info-export",
+          url: `/${urlPrefix}leave/assigned-leaves-info-export`,
           data: {
             ids: JSON.stringify(ids),
           },
@@ -298,7 +300,7 @@ $("#bulkAssignedLeavesDelete").click(function (e) {
           ids = JSON.parse($("#selectedLeaves").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/leave/assigned-leave-bulk-delete",
+            url: `/${urlPrefix}leave/assigned-leave-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -333,7 +335,7 @@ $(".assign-leave-type-info-import").click(function (e) {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "/leave/assign-leave-type-excel",
+          url: `/${urlPrefix}leave/assign-leave-type-excel`,
           dataType: "binary",
           xhrFields: {
             responseType: "blob",

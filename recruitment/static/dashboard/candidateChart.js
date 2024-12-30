@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function(){
     let myChart; // Declare myChart globally to access it outside the scope
 
@@ -47,7 +49,7 @@ $(document).ready(function(){
     }
 
     $.ajax({
-        url: "/recruitment/candidate-status",
+        url: `/${urlPrefix}recruitment/candidate-status`,
         type: "GET",
         success: function(response){
             dataSet = response.dataSet;

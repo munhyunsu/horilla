@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -21,7 +23,7 @@ $(document).ready(function () {
 
             var a =  $.ajax({
                 type: "post",
-                url: `/recruitment/recruitment-stage-get/${recruitmentId}/`,
+                url: `/${urlPrefix}recruitment/recruitment-stage-get/${recruitmentId}/`,
                 data: {
                     'csrfmiddlewaretoken': getCookie('csrftoken'),
                 },

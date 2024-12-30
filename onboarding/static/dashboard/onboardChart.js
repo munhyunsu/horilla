@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
 	//Hired candididates recruitment wise chart
 
@@ -5,7 +7,7 @@ $(document).ready(function () {
 	//onboarding started candidate chart
 	$.ajax({
 		type: "GET",
-		url: "/onboarding/onboard-candidate-chart",
+		url: `/${urlPrefix}onboarding/onboard-candidate-chart`,
 		success: function (response) {
 			const ctx = document.getElementById("onboardCandidate");
 			if (ctx) {

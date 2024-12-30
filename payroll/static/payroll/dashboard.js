@@ -1,4 +1,5 @@
 staticUrl = $("#statiUrl").attr("data-url");
+urlPrefix = $("#urlPrefix").attr("data-url");
 
 $(document).ready(function () {
   var myDate = new Date();
@@ -36,7 +37,7 @@ $(document).ready(function () {
       .getContext("2d");
 
     $.ajax({
-      url: "/payroll/get-language-code",
+      url: `/${urlPrefix}payroll/get-language-code`,
       type: "GET",
       success: (response) => {
         const scaleXText = response.scale_x_text;
@@ -115,7 +116,7 @@ $(document).ready(function () {
     var period = $("#monthYearField").val();
 
     $.ajax({
-      url: "/payroll/dashboard-employee-chart",
+      url: `/${urlPrefix}payroll/dashboard-employee-chart`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -174,7 +175,7 @@ $(document).ready(function () {
   function payslip_details() {
     var period = $("#monthYearField").val();
     $.ajax({
-      url: "/payroll/dashboard-payslip-details",
+      url: `/${urlPrefix}payroll/dashboard-payslip-details`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -233,7 +234,7 @@ $(document).ready(function () {
     }
 
     $.ajax({
-      url: "/payroll/dashboard-department-chart",
+      url: `/${urlPrefix}payroll/dashboard-department-chart`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -325,7 +326,7 @@ $(document).ready(function () {
     }
 
     $.ajax({
-      url: "/payroll/dashboard-contract-ending",
+      url: `/${urlPrefix}payroll/dashboard-contract-ending`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -388,7 +389,7 @@ $(document).ready(function () {
   $("#payroll-employee-next").on("click", function () {
     var period = $("#monthYearField").val();
     $.ajax({
-      url: "/payroll/dashboard-employee-chart",
+      url: `/${urlPrefix}payroll/dashboard-employee-chart`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -427,7 +428,7 @@ $(document).ready(function () {
   $("#employee-previous").on("click", function () {
     var period = $("#monthYearField").val();
     $.ajax({
-      url: "/payroll/dashboard-employee-chart",
+      url: `/${urlPrefix}payroll/dashboard-employee-chart`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -469,7 +470,7 @@ $(document).ready(function () {
   $("#contract_ending").on("click", ".contract_id", function () {
     id = $(this).data("id");
     $.ajax({
-      url: "/payroll/single-contract-view/" + id,
+      url: `/${urlPrefix}payroll/single-contract-view/${id}`,
       type: "GET",
       dataType: "html",
       headers: {

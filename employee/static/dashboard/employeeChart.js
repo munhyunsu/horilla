@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
     function employeeChart(dataSet, labels) {
         const data = {
@@ -109,7 +111,7 @@ $(document).ready(function () {
     }
 
     $.ajax({
-        url: "/employee/dashboard-employee",
+        url: `/${urlPrefix}employee/dashboard-employee`,
         type: "GET",
         success: function (response) {
           // Code to handle the response
@@ -121,7 +123,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: "/employee/dashboard-employee-gender",
+        url: `/${urlPrefix}employee/dashboard-employee-gender`,
         type: "GET",
         success: function (response) {
             // Code to handle the response
@@ -132,7 +134,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: "/employee/dashboard-employee-department",
+        url: `/${urlPrefix}employee/dashboard-employee-department`,
         type: "GET",
         success: function (response) {
             // Code to handle the response

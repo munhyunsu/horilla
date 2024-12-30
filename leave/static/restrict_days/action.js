@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var rowMessages = {
     ar: " تم الاختيار",
     de: " Ausgewählt",
@@ -30,7 +32,7 @@ function getCurrentLanguageCode(callback) {
     } else {
         $.ajax({
             type: "GET",
-            url: "/employee/get-language-code/",
+            url: `/${urlPrefix}employee/get-language-code/`,
             success: function (response) {
                 var ajaxLanguageCode = response.language_code;
                 $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -149,8 +151,8 @@ function selectAllRestrictDays() {
             : { page: "all" };
     var ajaxUrl =
         savedFilters && savedFilters["filterData"]
-            ? "/leave/restrict-day-select-filter"
-            : "/leave/restrict-day-select";
+            ? `/${urlPrefix}leave/restrict-day-select-filter`
+            : `/${urlPrefix}leave/restrict-day-select`;
 
     $.ajax({
         url: ajaxUrl,
@@ -195,8 +197,8 @@ function unselectAllRestrictDays() {
             : { page: "all" };
     var ajaxUrl =
         savedFilters && savedFilters["filterData"]
-            ? "/leave/restrict-day-select-filter"
-            : "/leave/restrict-day-select";
+            ? `/${urlPrefix}leave/restrict-day-select-filter`
+            : `/${urlPrefix}leave/restrict-day-select`;
 
     $.ajax({
         url: ajaxUrl,

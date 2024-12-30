@@ -1,8 +1,10 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 function getToMail(element) {
   model = element.val();
   $.ajax({
     type: "get",
-    url: "/get-to-mail-field",
+    url: `/${urlPrefix}get-to-mail-field`,
     data: {
       model: model,
     },

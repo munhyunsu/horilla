@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
 	function recruitmentChart(dataSet, labels) {
 		const data = {
@@ -38,7 +40,7 @@ $(document).ready(function () {
 		}
 	}
 	$.ajax({
-		url: "/recruitment/dashboard-pipeline",
+		url: `/${urlPrefix}recruitment/dashboard-pipeline`,
 		type: "GET",
 		success: function (response) {
 			// Code to handle the response
@@ -60,7 +62,7 @@ $(document).ready(function () {
 	});
 	$.ajax({
 		type: "GET",
-		url: "/recruitment/hired-candidate-chart",
+		url: `/${urlPrefix}recruitment/hired-candidate-chart`,
 		success: function (response) {
 			const ctx = document.getElementById("hiredCandidate");
 			if (ctx) {

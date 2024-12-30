@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var excelMessages = {
   ar: "هل ترغب في تنزيل ملف Excel؟",
   de: "Möchten Sie die Excel-Datei herunterladen?",
@@ -72,7 +74,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -180,7 +182,7 @@ function selectAllPayslip() {
     var filter = savedFilters["filterData"];
 
     $.ajax({
-      url: "/payroll/payslip-select-filter",
+      url: `/${urlPrefix}payroll/payslip-select-filter`,
       data: { page: "all", filter: JSON.stringify(filter) },
       type: "GET",
       dataType: "json",
@@ -216,7 +218,7 @@ function selectAllPayslip() {
     });
   } else {
     $.ajax({
-      url: "/payroll/payslip-select",
+      url: `/${urlPrefix}payroll/payslip-select`,
       data: { page: "all" },
       type: "GET",
       dataType: "json",
@@ -251,7 +253,7 @@ function unselectAllPayslip() {
   $("#selectedPayslip").attr("data-clicked", 0);
 
   $.ajax({
-    url: "/payroll/payslip-select",
+    url: `/${urlPrefix}payroll/payslip-select`,
     data: { page: "all", filter: "{}" },
     type: "GET",
     dataType: "json",
@@ -310,7 +312,7 @@ function exportPayslips() {
         if (result.isConfirmed) {
           $.ajax({
             type: "GET",
-            url: "/payroll/payslip-info-export",
+            url: `/${urlPrefix}payroll/payslip-info-export`,
             data: {
               ids: JSON.stringify(ids),
             },
@@ -381,7 +383,7 @@ $("#deletePayslipBulk").click(function (e) {
           }
           $.ajax({
             type: "POST",
-            url: "/payroll/payslip-bulk-delete",
+            url: `/${urlPrefix}payroll/payslip-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -477,7 +479,7 @@ function selectAllContracts() {
   if (savedFilters && savedFilters["filterData"] !== null) {
     var filter = savedFilters["filterData"];
     $.ajax({
-      url: "/payroll/contract-select-filter",
+      url: `/${urlPrefix}payroll/contract-select-filter`,
       data: { page: "all", filter: JSON.stringify(filter) },
       type: "GET",
       dataType: "json",
@@ -516,7 +518,7 @@ function selectAllContracts() {
     });
   } else {
     $.ajax({
-      url: "/payroll/contract-select",
+      url: `/${urlPrefix}payroll/contract-select`,
       data: { page: "all" },
       type: "GET",
       dataType: "json",
@@ -549,7 +551,7 @@ function selectAllContracts() {
 function unselectAllContracts() {
   $("#selectedInstances").attr("data-clicked", 0);
   $.ajax({
-    url: "/payroll/contract-select",
+    url: `/${urlPrefix}payroll/contract-select`,
     data: { page: "all", filter: "{}" },
     type: "GET",
     dataType: "json",
@@ -609,7 +611,7 @@ function exportContractRequest() {
         if (result.isConfirmed) {
           $.ajax({
             type: "GET",
-            url: "/payroll/contract-export",
+            url: `/${urlPrefix}payroll/contract-export`,
             data: {
               ids: JSON.stringify(ids),
             },
@@ -671,7 +673,7 @@ $("#DeleteContractBulk").click(function (e) {
 
           $.ajax({
             type: "POST",
-            url: "/payroll/contract-bulk-delete",
+            url: `/${urlPrefix}payroll/contract-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),

@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function() {
 const objectiveChart = document.getElementById("objectiveChart");
 // data dictionary
@@ -31,7 +33,7 @@ if (objectiveChart != null) {
 				let params = "?status=" + label + "&archive=false" + "&dashboard=True";
 
 				$.ajax({
-					url: "/pms/objective-dashboard-view" + params,
+					url: `/${urlPrefix}pms/objective-dashboard-view${params}`,
 					type: "GET",
 					headers: {
 						"X-Requested-With": "XMLHttpRequest",
@@ -62,7 +64,7 @@ function objectiveStatusDataUpdate(data) {
 }
 
 $.ajax({
-	url: "/pms/dashboard-objective-status",
+	url: `/${urlPrefix}pms/dashboard-objective-status`,
 	type: "GET",
 	dataType: "json",
 	headers: {
@@ -130,7 +132,7 @@ if (keyResultStatusChartCtx != null) {
 				let params = "?status=" + label + "&archive=false";
 
 				$.ajax({
-					url: "/pms/key-result-view" + params,
+					url: `/${urlPrefix}pms/key-result-view${params}`,
 					type: "GET",
 					headers: {
 						"X-Requested-With": "XMLHttpRequest",
@@ -161,7 +163,7 @@ function keyResultStatusDataUpdate(data) {
 }
 
 $.ajax({
-	url: "/pms/dashbord-key-result-status",
+	url: `/${urlPrefix}pms/dashbord-key-result-status`,
 	type: "GET",
 	dataType: "json",
 	headers: {
@@ -245,7 +247,7 @@ function feedbackStatusDataUpdate(data) {
 }
 
 $.ajax({
-	url: "/pms/dashboard-feedback-status",
+	url: `/${urlPrefix}pms/dashboard-feedback-status`,
 	type: "GET",
 	dataType: "json",
 	headers: {

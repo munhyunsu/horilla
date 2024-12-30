@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 class DateFormattingUtility {
     constructor() {
         // Default date format
@@ -54,7 +56,7 @@ class DateFormattingUtility {
             function fetchData(callback) {
 
                 $.ajax({
-                    url: '/settings/get-date-format/',
+                    url: `/${urlPrefix}settings/get-date-format/`,
                     method: 'GET',
                     data: { csrfmiddlewaretoken: getCookie('csrftoken') },
                     success: function(response) {

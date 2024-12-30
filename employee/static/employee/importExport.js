@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var downloadMessages = {
   ar: "هل ترغب في تنزيل القالب؟",
   de: "Möchten Sie die Vorlage herunterladen?",
@@ -62,7 +64,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -97,7 +99,7 @@ form.addEventListener("submit", function (event) {
   formData.append("file", fileInput.files[0]);
   $.ajax({
     type: "POST",
-    url: "/employee/work-info-import",
+    url: `/${urlPrefix}employee/work-info-import`,
     dataType: "binary",
     data: formData,
     processData: false,
@@ -163,7 +165,7 @@ form.addEventListener("submit", function (event) {
             formData.append("create_work_info", true);
             $.ajax({
               type: "POST",
-              url: "/employee/work-info-import",
+              url: `/${urlPrefix}employee/work-info-import`,
               dataType: "binary",
               data: formData,
               processData: false,

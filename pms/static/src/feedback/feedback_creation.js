@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
     $('#id_cyclic_feedback').change()
     $("#id_period").on("change", function () {
@@ -5,7 +7,7 @@ $(document).ready(function () {
         if (period_id === "create_new_period") {
             $.ajax({
                 type: "GET",
-                url: "create-period",
+                url: `/${urlPrefix}create-period`,
                 success: function (response) {
                     $("#PeriodModal").addClass("oh-modal--show");
                     $("#periodModalTarget").html(response);

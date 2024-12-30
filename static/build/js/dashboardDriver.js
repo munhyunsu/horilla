@@ -1,3 +1,4 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
 
 const driver = window.driver.js.driver;
 
@@ -65,7 +66,7 @@ function runDriver() {
     driverObj.drive();
     $.ajax({
         type: "get",
-        url: "/driver-viewed?user=" + $(".logged-in[data-user-id]").attr("data-user-id") + "&viewed=dashboard",
+        url: `/${urlPrefix}driver-viewed?user=${$(".logged-in[data-user-id]").attr("data-user-id")}&viewed=dashboard`,
         success: function (response) {
 
         }

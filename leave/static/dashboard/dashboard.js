@@ -1,4 +1,5 @@
 staticUrl = $("#statiUrl").attr("data-url");
+urlPrefix = $("#urlPrefix").attr("data-url");
 
 $(document).ready(function () {
   var today = new Date();
@@ -149,7 +150,7 @@ $(document).ready(function () {
   }
   $.ajax({
     type: "GET",
-    url: "/leave/employee-leave-chart",
+    url: `/${urlPrefix}leave/employee-leave-chart`,
     dataType: "json",
     success: function (response) {
       dataSet = response.dataset;
@@ -212,7 +213,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "/leave/available-leaves",
+    url: `/${urlPrefix}leave/available-leaves`,
     dataType: "json",
     success: function (response) {
       if (isChartEmpty(response.dataset)) {
@@ -236,7 +237,7 @@ $(document).ready(function () {
   });
   $.ajax({
     type: "GET",
-    url: "/leave/department-leave-chart",
+    url: `/${urlPrefix}leave/department-leave-chart`,
     dataType: "json",
     success: function (response) {
       department_leave_chart(response);
@@ -248,7 +249,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "/leave/leave-type-chart",
+    url: `/${urlPrefix}leave/leave-type-chart`,
     dataType: "json",
     success: function (response) {
       leave_type_chart(response);
@@ -260,7 +261,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "/leave/leave-over-period",
+    url: `/${urlPrefix}leave/leave-over-period`,
     dataType: "json",
     success: function (response) {
       leave_period_chart(response);
@@ -278,7 +279,7 @@ $(document).ready(function () {
     let month = $(this).val();
     $.ajax({
       type: "GET",
-      url: "/leave/employee-leave-chart",
+      url: `/${urlPrefix}leave/employee-leave-chart`,
       dataType: "json",
       data: {
         date: month,
@@ -311,7 +312,7 @@ $(document).ready(function () {
   $("#employee-next").on("click", function () {
     var period = $("#monthYearField").val();
     $.ajax({
-      url: "/leave/employee-leave-chart",
+      url: `/${urlPrefix}leave/employee-leave-chart`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -354,7 +355,7 @@ $(document).ready(function () {
   $("#employee-previous").on("click", function () {
     var period = $("#monthYearField").val();
     $.ajax({
-      url: "/leave/employee-leave-chart",
+      url: `/${urlPrefix}leave/employee-leave-chart`,
       type: "GET",
       dataType: "json",
       headers: {
@@ -400,7 +401,7 @@ $(document).ready(function () {
   const formattedDate = `${currentYear}-${currentMonth}`;
   $.ajax({
     type: "GET",
-    url: "/leave/department-leave-chart",
+    url: `/${urlPrefix}leave/department-leave-chart`,
     dataType: "json",
     data: {
       date: formattedDate,
@@ -433,7 +434,7 @@ $(document).ready(function () {
     let month = $(this).val();
     $.ajax({
       type: "GET",
-      url: "/leave/department-leave-chart",
+      url: `/${urlPrefix}leave/department-leave-chart`,
       dataType: "json",
       data: {
         date: month,
@@ -465,7 +466,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "/leave/leave-type-chart",
+    url: `/${urlPrefix}leave/leave-type-chart`,
     dataType: "json",
     data: {
       date: formattedDate,
@@ -498,7 +499,7 @@ $(document).ready(function () {
     let month = $(this).val();
     $.ajax({
       type: "GET",
-      url: "/leave/leave-type-chart",
+      url: `/${urlPrefix}leave/leave-type-chart`,
       dataType: "json",
       data: {
         date: month,

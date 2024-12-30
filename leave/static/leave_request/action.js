@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var closeButtonText = {
   ar: "إغلاق",
   de: "Schließen",
@@ -80,7 +82,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -172,7 +174,7 @@ function selectAllLeaverequests() {
   if (savedFilters && savedFilters["filterData"] !== null) {
     var filter = savedFilters["filterData"];
     $.ajax({
-      url: "/leave/leave-request-select-filter",
+      url: `/${urlPrefix}leave/leave-request-select-filter`,
       data: { page: "all", filter: JSON.stringify(filter) },
       type: "GET",
       dataType: "json",
@@ -196,7 +198,7 @@ function selectAllLeaverequests() {
     });
   } else {
     $.ajax({
-      url: "/leave/leave-request-select",
+      url: `/${urlPrefix}leave/leave-request-select`,
       data: { page: "all" },
       type: "GET",
       dataType: "json",
@@ -226,7 +228,7 @@ function selectAllLeaverequests() {
 function unselectAllLeaverequests() {
   $("#selectedLeaverequests").attr("data-clicked", 0);
   $.ajax({
-    url: "/leave/leave-request-select",
+    url: `/${urlPrefix}leave/leave-request-select`,
     data: { page: "all", filter: "{}" },
     type: "GET",
     dataType: "json",
@@ -271,7 +273,7 @@ function exportLeaverequests() {
       if (result.isConfirmed) {
         $.ajax({
           type: "GET",
-          url: "/leave/leave-requests-info-export",
+          url: `/${urlPrefix}leave/leave-requests-info-export`,
           data: {
             ids: JSON.stringify(ids),
           },
@@ -398,7 +400,7 @@ $("#leaveRequestBulkDelete").click(function (e) {
           ids = JSON.parse($("#selectedLeaverequests").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/leave/leave-request-bulk-delete",
+            url: `/${urlPrefix}leave/leave-request-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -491,7 +493,7 @@ function selectAllUserrequests() {
   if (savedFilters && savedFilters["filterData"] !== null) {
     var filter = savedFilters["filterData"];
     $.ajax({
-      url: "/leave/user-request-select-filter",
+      url: `/${urlPrefix}leave/user-request-select-filter`,
       data: { page: "all", filter: JSON.stringify(filter) },
       type: "GET",
       dataType: "json",
@@ -515,7 +517,7 @@ function selectAllUserrequests() {
     });
   } else {
     $.ajax({
-      url: "/leave/user-request-select",
+      url: `/${urlPrefix}leave/user-request-select`,
       data: { page: "all" },
       type: "GET",
       dataType: "json",
@@ -545,7 +547,7 @@ function selectAllUserrequests() {
 function unselectAllUserrequests() {
   $("#selectedUserrequests").attr("data-clicked", 0);
   $.ajax({
-    url: "/leave/user-request-select",
+    url: `/${urlPrefix}leave/user-request-select`,
     data: { page: "all", filter: "{}" },
     type: "GET",
     dataType: "json",
@@ -602,7 +604,7 @@ $("#userrequestbulkDelete").click(function (e) {
           ids = JSON.parse($("#selectedUserrequests").attr("data-ids"));
           $.ajax({
             type: "POST",
-            url: "/leave/user-request-bulk-delete",
+            url: `/${urlPrefix}leave/user-request-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),

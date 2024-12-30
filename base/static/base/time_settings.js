@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 function saveTimeFormat() {
     var timeFormatSelector = document.getElementById('timeFormat');
     const selectedTimeFormat = timeFormatSelector.value;
@@ -11,7 +13,7 @@ function saveTimeFormat() {
 
   function saveTimeFormatToBackend(selectedTimeFormat) {
     $.ajax({
-      url: '/settings/save-time/',
+      url: `/${urlPrefix}settings/save-time/`,
       method: 'POST',
       data: { 'selected_format': selectedTimeFormat, csrfmiddlewaretoken: getCookie('csrftoken') },
       success: function(response) {

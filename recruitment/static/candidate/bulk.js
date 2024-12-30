@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var archive_CanMessages = {
   ar: "هل ترغب حقًا في أرشفة جميع المرشحين المحددين؟",
   de: "Möchten Sie wirklich alle ausgewählten Kandidaten archivieren?",
@@ -64,7 +66,7 @@ function getCurrentLanguageCode(callback) {
   } else {
     $.ajax({
       type: "GET",
-      url: "/employee/get-language-code/",
+      url: `/${urlPrefix}employee/get-language-code/`,
       success: function (response) {
         var ajaxLanguageCode = response.language_code;
         $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -197,7 +199,7 @@ $("#archiveCandidates").click(function (e) {
           e.preventDefault();
           $.ajax({
             type: "POST",
-            url: "/recruitment/candidate-bulk-archive?is_active=False",
+            url: `/${urlPrefix}recruitment/candidate-bulk-archive?is_active=False`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -246,7 +248,7 @@ $("#unArchiveCandidates").click(function (e) {
           e.preventDefault();
           $.ajax({
             type: "POST",
-            url: "/recruitment/candidate-bulk-archive?is_active=True",
+            url: `/${urlPrefix}recruitment/candidate-bulk-archive?is_active=True`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),
@@ -298,7 +300,7 @@ $("#deleteCandidates").click(function (e) {
 
           $.ajax({
             type: "POST",
-            url: "/recruitment/candidate-bulk-delete",
+            url: `/${urlPrefix}recruitment/candidate-bulk-delete`,
             data: {
               csrfmiddlewaretoken: getCookie("csrftoken"),
               ids: JSON.stringify(ids),

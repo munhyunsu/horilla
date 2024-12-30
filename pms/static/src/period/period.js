@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
 
 // this function is used to generate csrf token
@@ -32,7 +34,7 @@ function getCookie(name) {
 
     var period_id = period_data.val()
     $.ajax({
-      url: '/pms/period-change',
+      url: `/${urlPrefix}pms/period-change`,
       type: "POST",
       dataType: "json",
       data: JSON.stringify(period_id),

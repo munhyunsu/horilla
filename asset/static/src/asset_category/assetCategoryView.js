@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 var downloadMessages = {
 	ar: "هل ترغب في تنزيل القالب؟",
 	de: "Möchten Sie die Vorlage herunterladen?",
@@ -30,7 +32,7 @@ function getCurrentLanguageCode(callback) {
 	} else {
 		$.ajax({
 			type: "GET",
-			url: "/employee/get-language-code/",
+			url: `/${urlPrefix}employee/get-language-code/`,
 			success: function (response) {
 				var ajaxLanguageCode = response.language_code;
 				$("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -64,7 +66,7 @@ function getAssetImportTemplate() {
 			if (result.isConfirmed) {
 				$.ajax({
 					type: "GET",
-					url: "/asset/asset-excel",
+					url: `/${urlPrefix}asset/asset-excel`,
 					dataType: "binary",
 					xhrFields: {
 						responseType: "blob",
@@ -102,7 +104,7 @@ $(document).ready(function () {
 		var csrf_token = $('input[name="csrfmiddlewaretoken"]').attr("value");
 		$.ajax({
 			type: "POST",
-			url: "asset-count-update",
+			url: `/${urlPrefix}asset-count-update`,
 			data: {
 				asset_category_id: assetCategoryId,
 				csrfmiddlewaretoken: csrf_token,

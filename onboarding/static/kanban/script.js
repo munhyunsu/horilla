@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== "") {
@@ -41,7 +43,7 @@ function countSequence(element) {
     });
     $.ajax({
       type: "post",
-      url: "/onboarding/candidate-sequence-update",
+      url: `/${urlPrefix}onboarding/candidate-sequence-update`,
       data: {
         csrfmiddlewaretoken: getCookie("csrftoken"),
         sequenceData: JSON.stringify(data),
@@ -70,7 +72,7 @@ function updateStageSequence(parentElement) {
   });
   $.ajax({
     type: "post",
-    url: "/onboarding/stage-sequence-update",
+    url: `/${urlPrefix}onboarding/stage-sequence-update`,
     data: {
       csrfmiddlewaretoken: getCookie("csrftoken"),
       sequenceData: JSON.stringify(data),
@@ -108,7 +110,7 @@ $(document).ready(function () {
       if (candidateNow != stageId) {
         $.ajax({
           type: "post",
-          url: `candidate-stage-update/${candidateId}/${recruitmentId}/?is_ajax=true`,
+          url: `/${urlPrefix}candidate-stage-update/${candidateId}/${recruitmentId}/?is_ajax=true`,
           data: {
             csrfmiddlewaretoken: getCookie("csrftoken"),
             is_ajax: true,

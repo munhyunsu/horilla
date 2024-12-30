@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
   //Todays leave count department wise chart
   if (document.getElementById("overAllLeave")){
@@ -37,7 +39,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "/leave/overall-leave?overall_leave=today",
+    url: `/${urlPrefix}leave/overall-leave?overall_leave=today`,
     dataType: "json",
     success: function (response) {
       if (overAllLeave){
@@ -52,7 +54,7 @@ $(document).ready(function () {
     var selected = $(this).val();
     $.ajax({
       type: "GET",
-      url: `/leave/overall-leave?overall_leave=${selected}`,
+      url: `/${urlPrefix}leave/overall-leave?overall_leave=${selected}`,
       dataType: "json",
       success: function (response) {
         overAllLeave.data.labels = response.labels;

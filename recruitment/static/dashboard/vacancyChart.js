@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function(){
     function vacancyChart(dataSet, labels){
         const data = {
@@ -13,7 +15,7 @@ $(document).ready(function(){
     }
 
     $.ajax({
-        url: "/recruitment/dashboard-vacancy",
+        url: `/${urlPrefix}recruitment/dashboard-vacancy`,
         type: "GET",
         success: function(response){
             dataSet = response.dataSet;

@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 class TimeFormattingUtility {
     constructor() {
         // Default time format
@@ -18,7 +20,7 @@ class TimeFormattingUtility {
             function fetchData(callback) {
 
                 $.ajax({
-                    url: '/settings/get-time-format/',
+                    url: `/${urlPrefix}settings/get-time-format/`,
                     method: 'GET',
                     data: { csrfmiddlewaretoken: getCookie('csrftoken') },
                     success: function(response) {

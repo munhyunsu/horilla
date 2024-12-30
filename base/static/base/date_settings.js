@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 function saveDateFormat() {
   var dateFormatSelector = document.getElementById('dateFormat');
   const selectedFormat = dateFormatSelector.value;
@@ -12,7 +14,7 @@ function saveDateFormat() {
 
 function saveDateFormatToBackend(selectedFormat) {
   $.ajax({
-      url: '/settings/save-date/',
+      url: `/${urlPrefix}settings/save-date/`,
       method: 'POST',
       data: { selected_format: selectedFormat, csrfmiddlewaretoken:getCookie('csrftoken') },
       success: function(response) {

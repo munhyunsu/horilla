@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
   $(".stage-change").on("change", function (e) {
     e.preventDefault();
@@ -10,7 +12,7 @@ $(document).ready(function () {
     setTimeout(() => {
       $.ajax({
         type: "post",
-        url: `/recruitment/candidate-stage-update/${candidateId}/`,
+        url: `/${urlPrefix}recruitment/candidate-stage-update/${candidateId}/`,
         data: {
           csrfmiddlewaretoken: getCookie("csrftoken"),
           stageId: stageId,
