@@ -385,6 +385,8 @@
 
 
 <script>
+  urlPrefix = $("#urlPrefix").attr("data-url");
+
   var archive_CanMessages = {
     ar: "هل ترغب حقًا في أرشفة جميع المرشحين المحددين؟",
     de: "Möchten Sie wirklich alle ausgewählten Kandidaten archivieren?",
@@ -499,7 +501,7 @@
     } else {
       $.ajax({
         type: "GET",
-        url: "/employee/get-language-code/",
+        url: `/${urlPrefix}employee/get-language-code/`,
         success: function (response) {
           var ajaxLanguageCode = response.language_code;
           $("#main-section-data").attr("data-lang", ajaxLanguageCode);
@@ -606,7 +608,7 @@
           if (result.isConfirmed) {
             $.ajax({
               type: "GET",
-              url: "/recruitment/candidate-info-export",
+              url: `/${urlPrefix}recruitment/candidate-info-export`,
               data: {
                 ids: JSON.stringify(ids),
               },

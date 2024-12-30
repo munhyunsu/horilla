@@ -47,10 +47,12 @@
 </div>
 
 <script>
+  urlPrefix = $("#urlPrefix").attr("data-url");
+
   function ModelChange (element) {
     var model = element.val()
     $.ajax({
-      url: "bonus-setting-form-values",
+      url: `/${urlPrefix}bonus-setting-form-values`,
       data: { model: model},
       type: "GET",
       dataType: "json",

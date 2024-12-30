@@ -8,7 +8,7 @@
   function preloadData(item, candId,preloadedData,callback) {
     $.ajax({
         type: "get",
-        url: `/recruitment/get-template-hint/`,
+        url: `/{{url_prefix}}recruitment/get-template-hint/`,
         data: { "candidate_id": candId, 'word': item },
         success: function(response) {
             preloadedData[item] = response.body;
@@ -305,6 +305,8 @@ function initializeSummernote(candId,searchWords,) {
 	}
 </style>
 <script>
+  urlPrefix = $("#urlPrefix").attr("data-url");
+
   $("#sidebar").mouseover(function (e) {
     e.preventDefault();
     var sidebarContainer = $(".oh-wrapper-main");
@@ -380,7 +382,7 @@ function initializeSummernote(candId,searchWords,) {
 
   $.ajax({
     type: "GET",
-    url: "/employee/get-language-code/",
+    url: `/${urlPrefix}employee/get-language-code/`,
     success: function (response) {
       languageCode = response.language_code;
       message = emptyMessages[languageCode];

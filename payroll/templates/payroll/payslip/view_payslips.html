@@ -284,6 +284,8 @@
     <div id="messageContainer"></div>
 
     <script>
+      urlPrefix = $("#urlPrefix").attr("data-url");
+
       var no_rows_payslip_send = {
         ar: "لم يتم اختيار أي صفوف لإرسال قسائم الرواتب.",
         de: "Es wurden keine Zeilen zum Senden von Gehaltsabrechnungen ausgewählt.",
@@ -306,7 +308,7 @@
         } else {
           $.ajax({
             type: "GET",
-            url: "/employee/get-language-code/",
+            url: `/${urlPrefix}employee/get-language-code/`,
             success: function (response) {
               var ajaxLanguageCode = response.language_code;
               $("#main-section-data").attr("data-lang", ajaxLanguageCode);

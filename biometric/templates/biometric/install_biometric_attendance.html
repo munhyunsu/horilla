@@ -15,12 +15,14 @@
 </div>
 
 <script>
+    urlPrefix = $("#urlPrefix").attr("data-url");
+
     $(document).ready(function () {
         $('#is_installed').on('change', function () {
             var boolean = $(this).is(":checked")
             $.ajax({
                 type: "GET",
-                url: "/settings/activate-biometric-attendance",
+                url: `/${urlPrefix}settings/activate-biometric-attendance`,
                 data: {
                     is_installed: boolean,
                 },

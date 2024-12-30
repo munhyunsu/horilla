@@ -258,6 +258,8 @@
 
 <!-- end of pagination -->
 <script>
+  urlPrefix = $("#urlPrefix").attr("data-url");
+
   $(document).ready(function () {
     // asset delete
     $(".asset-delete").on("click", function () {
@@ -282,7 +284,7 @@
       var csrf_token = $('input[name="csrfmiddlewaretoken"]').attr("value");
       $.ajax({
         type: "POST",
-        url: "asset-count-update",
+        url: `/${urlPrefix}asset-count-update`,
         data: {
           asset_category_id: assetCategoryId,
           csrfmiddlewaretoken: csrf_token,

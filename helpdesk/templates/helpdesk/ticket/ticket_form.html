@@ -187,12 +187,14 @@
 <!-- end of create ticket type modal. -->
 
 <script>
+    urlPrefix = $("#urlPrefix").attr("data-url");
+
     $(document).ready(function () {
         var assigning_type = $('#id_assigning_type').find(":selected").val();
         if (assigning_type) {
             $.ajax({
                 type: "GET",
-                url: "/helpdesk/get-raised-on",
+                url: `/${urlPrefix}helpdesk/get-raised-on`,
                 data: {
                     'assigning_type': assigning_type,
                 },
@@ -225,7 +227,7 @@
             var assigning_type = $(this).find(":selected").val();
             $.ajax({
                 type: "GET",
-                url: "/helpdesk/get-raised-on",
+                url: `/${urlPrefix}helpdesk/get-raised-on`,
                 data: {
                     assigning_type: assigning_type,
                 },

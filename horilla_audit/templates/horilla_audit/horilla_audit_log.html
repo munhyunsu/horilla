@@ -1,10 +1,12 @@
 {% load i18n %}{% load widget_tweaks %} {% load horillafilters %}
 <script>
+    urlPrefix = $("#urlPrefix").attr("data-url");
+
     function auditDynamicTag(optionElement) {
         var val = optionElement.val();
         $.ajax({
             type: "post",
-            url: "/horilla-audit-log",
+            url: `/${urlPrefix}horilla-audit-log`,
             data: {
                 csrfmiddlewaretoken: getCookie("csrftoken"),
                 title: val,

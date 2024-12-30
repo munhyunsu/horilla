@@ -1,3 +1,5 @@
+urlPrefix = $("#urlPrefix").attr("data-url");
+
 $(document).ready(function () {
   $(`[data-widget="ajax-widget"]select`).css({
     "width": "100% ",
@@ -25,7 +27,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "get",
-      url: "/recruitment/get-open-positions",
+      url: `/${urlPrefix}recruitment/get-open-positions`,
       data: { recId: recId },
       success: function (response) {
         var openPositions = JSON.parse(response.openPositions);
@@ -51,7 +53,7 @@ $(document).ready(function () {
     });
     // $.ajax({
     //   type: "GET",
-    //   url: "/recruitment/recruitment-application-survey",
+    //   url: `/${urlPrefix}recruitment/recruitment-application-survey`,
     //   data: {recId:recId},
     //   success: function (response) {
     //     $("#recruitmentSurveyBody").html(response);
