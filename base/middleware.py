@@ -191,7 +191,7 @@ class ForcePasswordChangeMiddleware:
 
     def __call__(self, request):
         # Exclude specific paths from redirection
-        excluded_paths = [f'{settings.URL_PREFIX}{item}' for item in ["/change-password", "/login", "/logout"]]
+        excluded_paths = [f'/{settings.URL_PREFIX}{item}' for item in ["change-password", "login", "logout"]]
         if request.path.rstrip("/") in excluded_paths:
             return self.get_response(request)
 
