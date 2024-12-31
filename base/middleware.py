@@ -42,6 +42,7 @@ from payroll.models.models import (
 )
 from pms.models import EmployeeObjective
 from recruitment.models import Candidate, Recruitment
+from horilla import settings
 
 
 class CompanyMiddleware:
@@ -190,7 +191,7 @@ class ForcePasswordChangeMiddleware:
 
     def __call__(self, request):
         # Exclude specific paths from redirection
-        excluded_paths = ["/change-password", "/login", "/logout"]
+        excluded_paths = [f'{settings.URL_PREFIX}{item}' for item in ["/change-password", "/login", "/logout"]]
         if request.path.rstrip("/") in excluded_paths:
             return self.get_response(request)
 
