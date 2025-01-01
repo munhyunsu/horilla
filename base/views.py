@@ -658,7 +658,7 @@ class HorillaPasswordResetView(PasswordResetView):
                 messages.success(
                     self.request, _("Password reset link sent successfully")
                 )
-                return HttpResponseRedirect(self.request.META.get("HTTP_REFERER", "/"))
+                return HttpResponseRedirect(self.request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
             return redirect(reverse_lazy("reset-send-success"))
 
@@ -684,7 +684,7 @@ class EmployeePasswordResetView(PasswordResetView):
                 is_default_backend = False
             if is_default_backend and not email_backend.configuration:
                 messages.error(self.request, _("Primary mail server is not configured"))
-                return HttpResponseRedirect(self.request.META.get("HTTP_REFERER", "/"))
+                return HttpResponseRedirect(self.request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
             username = form.cleaned_data["email"]
             user = User.objects.filter(username=username).first()
@@ -705,7 +705,7 @@ class EmployeePasswordResetView(PasswordResetView):
                 )
             else:
                 messages.error(self.request, _("No user with the given username"))
-            return HttpResponseRedirect(self.request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(self.request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
         except Exception as e:
             messages.error(self.request, f"Something went wrong.....")
@@ -1106,7 +1106,7 @@ def user_group_permission_remove(request, pid, gid):
     group = Group.objects.get(id=1)
     permission = Permission.objects.get(id=2)
     group.permissions.remove(permission)
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1122,7 +1122,7 @@ def group_remove_user(request, uid, gid):
     group = Group.objects.get(id=gid)
     user = User.objects.get(id=uid)
     group.user_set.remove(user)
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1191,7 +1191,7 @@ def object_delete(request, obj_id, **kwargs):
             return_part = kwargs.get("HttpResponse")
         return HttpResponse(f"{return_part}")
     else:
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -2233,7 +2233,7 @@ def rotating_work_type_assign_redirect(request, obj_id=None, employee_id=None):
     elif hx_target:
         return HttpResponse("<script>window.location.reload()</script>")
     else:
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -3493,7 +3493,7 @@ def work_type_request(request):
 def handle_wtr_redirect(request, work_type_request):
     hx_request = request.META.get("HTTP_HX_REQUEST") == "true"
     if not hx_request:
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     current_url = "/" + "/".join(
         request.META.get("HTTP_HX_CURRENT_URL", "").split("/")[3:]
@@ -3535,7 +3535,7 @@ def work_type_request_cancel(request, id):
     work_type_request = WorkTypeRequest.find(id)
     if not work_type_request:
         messages.error(request, _("Work type request not found."))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     if not (
         is_reportingmanger(request, work_type_request)
@@ -3544,7 +3544,7 @@ def work_type_request_cancel(request, id):
         and work_type_request.approved == False
     ):
         messages.error(request, _("You don't have permission"))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     work_type_request.canceled = True
     work_type_request.approved = False
     work_info = EmployeeWorkInformation.objects.filter(
@@ -3621,7 +3621,7 @@ def work_type_request_approve(request, id):
     work_type_request = WorkTypeRequest.find(id)
     if not work_type_request:
         messages.error(request, _("Work type request not found."))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     if not (
         is_reportingmanger(request, work_type_request)
         or request.user.has_perm("approve_worktyperequest")
@@ -3629,7 +3629,7 @@ def work_type_request_approve(request, id):
         and not work_type_request.approved
     ):
         messages.error(request, _("You don't have permission"))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     """
     Here the request will be approved, can send mail right here
     """
@@ -4390,7 +4390,7 @@ def shift_request_cancel(request, id):
     shift_request = ShiftRequest.find(id)
     if not shift_request:
         messages.error(request, _("Shift request not found."))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     if not (
         is_reportingmanger(request, shift_request)
         or request.user.has_perm("base.cancel_shiftrequest")
@@ -4398,7 +4398,7 @@ def shift_request_cancel(request, id):
         and shift_request.approved == False
     ):
         messages.error(request, _("You don't have permission"))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     today_date = datetime.today().date()
     if (
         shift_request.approved
@@ -4448,7 +4448,7 @@ def shift_request_cancel(request, id):
             redirect=reverse("shift-request-view") + f"?id={shift_request.id}",
             icon="close",
         )
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -4486,7 +4486,7 @@ def shift_allocation_request_cancel(request, id):
         icon="close",
     )
 
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -4561,7 +4561,7 @@ def shift_request_approve(request, id):
     shift_request = ShiftRequest.find(id)
     if not shift_request:
         messages.error(request, _("Shift request not found."))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     user = request.user
     if not (
@@ -4571,14 +4571,14 @@ def shift_request_approve(request, id):
         and not shift_request.approved
     ):
         messages.error(request, _("You don't have permission"))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     if shift_request.is_any_request_exists():
         messages.error(
             request,
             _("An approved shift request already exists during this time period."),
         )
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     today_date = datetime.today().date()
     if not shift_request.is_permanent_shift:
@@ -4616,7 +4616,7 @@ def shift_request_approve(request, id):
             icon="checkmark",
         )
 
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -4645,13 +4645,13 @@ def shift_allocation_request_approve(request, id):
             redirect=reverse("shift-request-view") + f"?id={shift_request.id}",
             icon="checkmark",
         )
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     else:
         messages.error(
             request,
             _("An approved shift request already exists during this time period."),
         )
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -4738,7 +4738,7 @@ def shift_request_delete(request, id):
     hx_target = request.META.get("HTTP_HX_TARGET", None)
     if hx_target and hx_target == "shift_target" and shift_request.employee_id:
         return redirect(f"/{settings.URL_PREFIX}employee/shift-tab/{shift_request.employee_id.id}")
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -4960,7 +4960,7 @@ def general_settings(request):
         if form.is_valid():
             form.save()
             messages.success(request, _("Settings updated."))
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     return render(
         request,
         "base/general_settings.html",
@@ -6120,7 +6120,7 @@ def pagination_settings_view(request):
                 messages.success(request, _("Default pagination updated."))
     if request.META.get("HTTP_HX_REQUEST"):
         return HttpResponse()
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

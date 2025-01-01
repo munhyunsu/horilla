@@ -23,6 +23,7 @@ from horilla.decorators import hx_request_required, login_required, permission_r
 from payroll.forms.tax_forms import FilingStatusForm, TaxBracketForm
 from payroll.models.models import FilingStatus
 from payroll.models.tax_models import TaxBracket
+from horilla import settings
 
 
 @login_required
@@ -85,7 +86,7 @@ def update_filing_status(request, filing_status_id):
     filing_status = FilingStatus.find(filing_status_id)
     if not filing_status:
         messages.error(request, _("Filing status not found"))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     filing_status_form = FilingStatusForm(instance=filing_status)
     if request.method == "POST":
         filing_status_form = FilingStatusForm(request.POST, instance=filing_status)
@@ -242,7 +243,7 @@ def update_tax_bracket(request, tax_bracket_id):
         }
         return render(request, "payroll/tax/tax_bracket_edit.html", context)
     messages.error(request, _("Tax bracket not found"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -270,7 +271,7 @@ def delete_tax_bracket(request, tax_bracket_id):
     return (
         redirect(tax_bracket_list, filing_status_id=filing_status_id)
         if filing_status_id
-        else HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        else HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     )
 
 

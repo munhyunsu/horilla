@@ -54,6 +54,7 @@ from horilla.decorators import (
     permission_required,
 )
 from notifications.signals import notify
+from horilla import settings
 
 
 @login_required
@@ -562,7 +563,7 @@ def approve_validate_attendance_request(request, attendance_id):
             redirect=reverse("request-attendance-view") + f"?id={attendance.id}",
             icon="checkmark-circle-outline",
         )
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -602,7 +603,7 @@ def cancel_attendance_request(request, attendance_id):
             )
     except (Attendance.DoesNotExist, OverflowError):
         messages.error(request, _("Attendance request not found"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

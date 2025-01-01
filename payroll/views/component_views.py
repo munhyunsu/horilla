@@ -690,7 +690,7 @@ def delete_deduction(request, deduction_id, emp_id=None):
         if redirected_path:
             return redirect(redirected_path)
     default_redirect = (
-        request.path if http_hx_target else request.META.get("HTTP_REFERER", "/")
+        request.path if http_hx_target else request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
     )
     return HttpResponseRedirect(default_redirect)
 

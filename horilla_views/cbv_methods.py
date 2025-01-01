@@ -189,7 +189,7 @@ def permission_required(function, perm):
             return function(self, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
                 return render(request, "decorator_404.html")
@@ -211,7 +211,7 @@ def check_feature_enabled(function, feature_name, model_class: models.Model):
         if enabled:
             return function(self, request, *args, **kwargs)
         messages.info(request, _trans("Feature is not enabled on the settings"))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
         key = "HTTP_HX_REQUEST"
         if key in request.META.keys():
             return render(request, "decorator_404.html")

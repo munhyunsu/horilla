@@ -78,6 +78,7 @@ from recruitment.filters import CandidateFilter, CandidateReGroup, RecruitmentFi
 from recruitment.forms import RejectedCandidateForm
 from recruitment.models import Candidate, Recruitment, RejectedCandidate
 from recruitment.pipeline_grouper import group_by_queryset
+from horilla import settings
 
 logger = logging.getLogger(__name__)
 
@@ -221,7 +222,7 @@ def stage_delete(request, stage_id):
         messages.error(request, _("Stage not found."))
     except ProtectedError:
         messages.error(request, _("There are candidates in this stage..."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

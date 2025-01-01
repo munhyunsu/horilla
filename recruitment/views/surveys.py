@@ -45,6 +45,7 @@ from recruitment.models import (
 )
 from recruitment.pipeline_grouper import group_by_queryset
 from recruitment.views.paginator_qry import paginator_qry
+from horilla import settings
 
 
 def survey_form(request):
@@ -475,7 +476,7 @@ def delete_template(request):
     else:
         messages.success(request, "Template group deleted")
 
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

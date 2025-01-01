@@ -47,7 +47,7 @@ def recruitment_delete(request, rec_id):
             recruitment_obj = Recruitment.objects.get(id=rec_id)
         except Recruitment.DoesNotExist:
             messages.error(request, _("Recruitment not found."))
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         recruitment_mangers = recruitment_obj.recruitment_managers.all()
         all_stage_permissions = Permission.objects.filter(
             content_type__app_label="recruitment", content_type__model="stage"
@@ -85,7 +85,7 @@ def recruitment_delete(request, rec_id):
         recruitment_obj = Recruitment.objects.all()
     except (Recruitment.DoesNotExist, OverflowError):
         messages.error(request, _("Recruitment Does not exists.."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -114,7 +114,7 @@ def recruitment_delete_pipeline(request, rec_id):
             request,
             _("Recruitment already in use for {}.".format(models_verbose_name_str)),
         )
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -168,7 +168,7 @@ def stage_delete(request, stage_id):
             recruitment_id = stage_obj.recruitment_id.id
         except Stage.DoesNotExist:
             messages.error(request, _("Stage not found."))
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
         stage_managers = stage_obj.stage_managers.all()
         for manager in stage_managers:
@@ -205,7 +205,7 @@ def stage_delete(request, stage_id):
     hx_current_url = request.META.get("HTTP_HX_CURRENT_URL")
     if hx_request and hx_request == "true" and "stage-view" in hx_current_url:
         return redirect(f"/{settings.URL_PREFIX}recruitment/stage-data/{recruitment_id}/")
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -238,7 +238,7 @@ def candidate_delete(request, cand_id):
             )
     except (Candidate.DoesNotExist, OverflowError):
         messages.error(request, _("Candidate Does not exists."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -281,7 +281,7 @@ def candidate_archive(request, cand_id):
         messages.success(request, _("Candidate is %(message)s") % {"message": message})
     except (Candidate.DoesNotExist, OverflowError):
         messages.error(request, _("Candidate Does not exists."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

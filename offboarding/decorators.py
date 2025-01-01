@@ -15,6 +15,7 @@ from offboarding.models import (
     OffboardingStage,
     OffboardingTask,
 )
+from horilla import settings
 
 
 @decorator_with_arguments
@@ -32,7 +33,7 @@ def any_manager_can_enter(function, perm, offboarding_employee_can_enter=False):
         ):
             return function(request, *args, **kwargs)
         else:
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
@@ -53,7 +54,7 @@ def offboarding_manager_can_enter(function, perm):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
@@ -75,7 +76,7 @@ def offboarding_or_stage_manager_can_enter(function, perm):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
                 return render(request, "decorator_404.html")
@@ -93,7 +94,7 @@ def check_feature_enabled(function, feature_name):
         if enabled:
             return function(request, *args, **kwargs)
         messages.info(request, "Feature is not enabled on the settings")
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
         key = "HTTP_HX_REQUEST"
         if key in request.META.keys():
             return render(request, "decorator_404.html")

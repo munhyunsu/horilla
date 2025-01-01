@@ -158,7 +158,7 @@ def add_asset_report(request, asset_id=None):
                 for file in request.FILES.getlist("file"):
                     AssetDocuments.objects.create(asset_report=asset_report, file=file)
 
-                return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+                return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
             # return HttpResponse("<script>window.location.reload()</script>")
 
     return render(
@@ -273,7 +273,7 @@ def asset_delete(request, asset_id):
         asset = Asset.objects.get(id=asset_id)
     except Asset.DoesNotExist:
         messages.error(request, _("Asset not found"))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     asset_cat_id = asset.asset_category_id.id
     status = asset.asset_status
     asset_list_filter = request.GET.get("asset_list")
@@ -300,7 +300,7 @@ def asset_delete(request, asset_id):
             messages.error(request, _("Asset is used in allocation!."))
         else:
             asset_del(request, asset)
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     instances_ids = request.GET.get("requests_ids", "[]")
     instances_list = eval_validate(instances_ids)
@@ -583,7 +583,7 @@ def asset_request_creation(request):
     """
     # intitial  = {'requested_employee_id':request.user.employee_get}
 
-    referer = request.META.get("HTTP_REFERER", "/")
+    referer = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
     hx_url, hx_target = request_creation_hx_returns(referer, request.user)
     form = AssetRequestForm(user=request.user)
     context = {"asset_request_form": form, "hx_url": hx_url, "hx_target": hx_target}
@@ -659,7 +659,7 @@ def asset_request_approve(request, req_id):
 
 def reject_request_return(request, asset_request, req_id):
     if not request.META.get("HTTP_HX_REQUEST"):
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     hx_target = request.META.get("HTTP_HX_TARGET")
     if hx_target == "objectDetailsModalW25Target":
@@ -796,7 +796,7 @@ def asset_allocate_return_request(request, asset_id):
         url = reverse("asset-request-allocation-view-search-filter")
         return redirect(f"{url}?{previous_data}")
 
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

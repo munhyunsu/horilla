@@ -4,6 +4,7 @@ from pyexpat.errors import messages
 
 from base.methods import check_manager
 from helpdesk.models import Ticket
+from horilla import settings
 
 decorator_with_arguments = (
     lambda decorator: lambda *args, **kwargs: lambda func: decorator(
@@ -30,7 +31,7 @@ def ticket_owner_can_enter(function, perm: str, model: object, manager_access=Fa
                 employee = model.objects.get(id=instance_id).employee_id
             except:
                 messages.error(request, ("Sorry, something went wrong!"))
-                return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+                return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         can_enter = (
             request.user.employee_get == employee
             or request.user.has_perm(perm)

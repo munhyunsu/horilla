@@ -63,6 +63,7 @@ from horilla.decorators import (
 )
 from horilla.group_by import group_by_queryset
 from notifications.signals import notify
+from horilla import settings
 
 logger = logging.getLogger(__name__)
 
@@ -536,7 +537,7 @@ def ticket_update(request, ticket_id):
     else:
         messages.info(request, _("You don't have permission."))
 
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
 
         # Handle request for HTMX if needed
         if "HTTP_HX_REQUEST" in request.META:
@@ -577,12 +578,12 @@ def ticket_archive(request, ticket_id):
         else:
             messages.success(request, _("The Ticket archived successfully."))
 
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     else:
         messages.info(request, _("You don't have permission."))
 
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
 
         # Handle request for HTMX if needed
         if "HTTP_HX_REQUEST" in request.META:
@@ -716,7 +717,7 @@ def ticket_delete(request, ticket_id):
             messages.error(request, _('The ticket is not in the "New" status'))
     except ProtectedError:
         messages.error(request, _("You cannot delete this Ticket."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 def get_allocated_tickets(request):
@@ -913,7 +914,7 @@ def ticket_detail(request, ticket_id, **kwargs):
         return render(request, "helpdesk/ticket/ticket_detail.html", context=context)
     else:
         messages.info(request, _("You don't have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
 
         # Handle request for HTMX if needed
         if "HTTP_HX_REQUEST" in request.META:
@@ -950,7 +951,7 @@ def view_ticket_claim_request(request, ticket_id):
         return render(request, "helpdesk/ticket/ticket_claim_requests.html", context)
     else:
         messages.info(request, _("You don't have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
 
         # Handle request for HTMX if needed
         if "HTTP_HX_REQUEST" in request.META:
@@ -985,7 +986,7 @@ def ticket_update_tag(request):
         return JsonResponse(response)
     else:
         messages.info(request, _("You don't have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
 
         # Handle request for HTMX if needed
         if "HTTP_HX_REQUEST" in request.META:
@@ -1018,7 +1019,7 @@ def ticket_change_raised_on(request, ticket_id):
         )
     else:
         messages.info(request, _("You don't have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
 
         # Handle request for HTMX if needed
         if "HTTP_HX_REQUEST" in request.META:
@@ -1076,7 +1077,7 @@ def ticket_change_assignees(request, ticket_id):
         )
     else:
         messages.info(request, _("You don't have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
 
         # Handle request for HTMX if needed
         if "HTTP_HX_REQUEST" in request.META:
@@ -1235,7 +1236,7 @@ def comment_delete(request, comment_id):
     messages.success(
         request, _("{}'s comment has been deleted successfully.").format(employee)
     )
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1282,7 +1283,7 @@ def claim_ticket(request, id):
         employee_id=request.user.employee_get, ticket_id=ticket
     ).exists():
         ClaimRequest(employee_id=request.user.employee_get, ticket_id=ticket).save()
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1436,7 +1437,7 @@ def tickets_bulk_archive(request):
         ticket.is_active = is_active
         ticket.save()
     messages.success(request, _("The Ticket updated successfully."))
-    previous_url = request.META.get("HTTP_REFERER", "/")
+    previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
     script = f'<script>window.location.href = "{previous_url}"</script>'
     return HttpResponse(script)
 
@@ -1486,7 +1487,7 @@ def tickets_bulk_delete(request):
             )
         except ProtectedError:
             messages.error(request, _("You cannot delete this Ticket."))
-    previous_url = request.META.get("HTTP_REFERER", "/")
+    previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
     script = f'<script>window.location.href = "{previous_url}"</script>'
     return HttpResponse(script)
 
@@ -1548,7 +1549,7 @@ def delete_department_manager(request, dep_id):
     department_manager.delete()
     messages.success(request, _("The department manager has been deleted successfully"))
 
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1575,10 +1576,10 @@ def update_priority(request, ticket_id):
             ticket.priority = "high"
         ticket.save()
         messages.success(request, _("Priority updated successfully."))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     else:
         messages.info(request, _("You don't have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
 
         # Handle request for HTMX if needed
         if "HTTP_HX_REQUEST" in request.META:

@@ -39,7 +39,7 @@ def leave_allocation_change_permission(function=None, *args, **kwargs):
         ):
             return function(request, *args, req_id=req_id, **kwargs)
         messages.info(request, _("You dont have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", "/{settings.URL_PREFIX}")
         script = f'<script>window.location.href = "{previous_url}"</script>'
         key = "HTTP_HX_REQUEST"
         if key in request.META.keys():
@@ -70,7 +70,7 @@ def leave_allocation_delete_permission(function=None, *args, **kwargs):
             ):
                 return function(request, *args, req_id=req_id, **kwargs)
             messages.info(request, _("You dont have permission."))
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
@@ -103,7 +103,7 @@ def leave_allocation_reject_permission(function=None, *args, **kwargs):
             ):
                 return function(request, *args, req_id=req_id, **kwargs)
             messages.info(request, _("You dont have permission."))
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
@@ -128,7 +128,7 @@ def is_compensatory_leave_enabled(func=None, *args, **kwargs):
         ):
             return func(request, *args, **kwargs)
         messages.info(request, _("Sorry,Compensatory leave is not enabled."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
         script = f'<script>window.location.href = "{previous_url}"</script>'
         return HttpResponse(script)
 

@@ -11,6 +11,7 @@ from django.shortcuts import render
 from employee.models import Employee
 from onboarding.models import OnboardingStage, OnboardingTask
 from recruitment.models import Recruitment
+from horilla import settings
 
 
 def decorator_with_arguments(decorator):
@@ -73,7 +74,7 @@ def all_manager_can_enter(function, perm):
         if user.has_perm(perm) or is_manager:
             return function(request, *args, **kwargs)
         messages.info(request, "You dont have permission.")
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
         script = f'<script>window.location.href = "{previous_url}"</script>'
         key = "HTTP_HX_REQUEST"
         if key in request.META.keys():
@@ -99,7 +100,7 @@ def stage_manager_can_enter(function, perm):
         if user.has_perm(perm) or is_manager:
             return function(request, *args, **kwargs)
         messages.info(request, "You dont have permission.")
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
         script = f'<script>window.location.href = "{previous_url}"</script>'
         key = "HTTP_HX_REQUEST"
         if key in request.META.keys():
@@ -122,7 +123,7 @@ def recruitment_manager_can_enter(function, perm):
         if user.has_perm(perm) or is_manager:
             return function(request, *args, **kwargs)
         messages.info(request, "You dont have permission.")
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
         script = f'<script>window.location.href = "{previous_url}"</script>'
         key = "HTTP_HX_REQUEST"
         if key in request.META.keys():

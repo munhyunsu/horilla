@@ -275,7 +275,7 @@ def profile_edit_access(request, emp_id):
                 cache.delete(user_cache_key[-1])
                 update_employee_accessibility_cache(user_cache_key[-1], employee)
 
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1428,7 +1428,7 @@ def employee_view_update(request, obj_id, **kwargs):
             },
         )
     return HttpResponseRedirect(
-        request.META.get("HTTP_REFERER", "/employee/employee-view")
+        request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}employee/employee-view")
     )
 
 
@@ -1979,7 +1979,7 @@ def employee_archive(request, obj_id):
         messages.success(request, message)
         key = "HTTP_HX_REQUEST"
         if key not in request.META.keys():
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         else:
             return HttpResponse("<script>$('#filterEmployee').click();</script>")
     else:
@@ -2118,7 +2118,7 @@ def get_manager_in(request):
         messages.success(request, message)
         key = "HTTP_HX_REQUEST"
         if key not in request.META.keys():
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         else:
             return HttpResponse("<script>window.location.reload()</script>")
     else:
@@ -3234,7 +3234,7 @@ def add_bonus_points(request, emp_id):
                     form.cleaned_data["points"]
                 ),
             )
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     return render(
         request,
@@ -3449,7 +3449,7 @@ def encashment_condition_create(request):
             if encashment_form.is_valid():
                 encashment_form.save()
                 messages.success(request, _("Settings updated."))
-                return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+                return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         else:
             encashment_form = EncashmentGeneralSettingsForm(instance=instance)
 
@@ -3460,7 +3460,7 @@ def encashment_condition_create(request):
         )
 
     messages.warning(request, _("Payroll app not installed"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -3478,7 +3478,7 @@ def initial_prefix(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Initial prefix updated successfully.")
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         else:
             messages.error(request, "There was an error updating the prefix.")
     else:

@@ -42,7 +42,7 @@ def permission_required(function, perm):
 
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
                 return render(request, "decorator_404.html")
@@ -80,7 +80,7 @@ def delete_permission(function):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission for delete.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
                 return render(request, "decorator_404.html")
@@ -122,7 +122,7 @@ def duplicate_permission(function):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission for duplicate action.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
                 return render(request, "decorator_404.html")
@@ -170,7 +170,7 @@ def manager_can_enter(function, perm):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
@@ -204,7 +204,7 @@ def is_recruitment_manager(function, perm):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
@@ -238,7 +238,7 @@ def login_required(view_func):
                 "notifications_notification" in str(e)
                 and request.headers.get("X-Requested-With") != "XMLHttpRequest"
             ):
-                referer = request.META.get("HTTP_REFERER", "/")
+                referer = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
                 messages.warning(request, str(e))
                 return HttpResponse(
                     f"<script>window.location.href ='{str(referer)}'</script>"
@@ -284,7 +284,7 @@ def owner_can_enter(function, perm: str, model: object, manager_access=False):
                 )
             except:
                 messages.error(request, ("Sorry, something went wrong!"))
-                return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+                return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         can_enter = (
             request.user.employee_get == employee
             or request.user.has_perm(perm)
@@ -317,7 +317,7 @@ def install_required(function):
                     request,
                     _("Please enable the Track Late Come & Early Out from settings"),
                 )
-                return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+                return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         object = BiometricAttendance.objects.all().first()
         if not object or object.is_installed:
             return function(request, *args, **kwargs)
@@ -328,7 +328,7 @@ def install_required(function):
                     "Please activate the biometric attendance feature in the settings menu."
                 ),
             )
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     return _function
 
@@ -364,7 +364,7 @@ def meeting_manager_can_enter(function, perm, answerable=False):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():

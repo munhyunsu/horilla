@@ -951,7 +951,7 @@ def leave_request_approve(request, id, emp_id=None):
     if emp_id is not None:
         employee_id = emp_id
         return redirect(f"/{settings.URL_PREFIX}employee/employee-view/{employee_id}/")
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -3466,7 +3466,7 @@ def leave_allocation_request_approve(request, req_id):
             )
     else:
         messages.error(request, _("The leave allocation request can't be approved"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

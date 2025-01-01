@@ -718,7 +718,7 @@ def recruitment_archive(request, rec_id):
         recruitment.save()
     except (Recruitment.DoesNotExist, OverflowError):
         messages.error(request, _("Recruitment Does not exists.."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -816,7 +816,7 @@ def recruitment_close_pipeline(request, rec_id):
         messages.success(request, "Recruitment closed successfully")
     except (Recruitment.DoesNotExist, OverflowError):
         messages.error(request, _("Recruitment Does not exists.."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -830,7 +830,7 @@ def recruitment_reopen_pipeline(request, rec_id):
     recruitment_obj.save()
 
     messages.success(request, "Recruitment reopend successfully")
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1551,7 +1551,7 @@ def candidate_view_individual(request, cand_id, **kwargs):
     candidate_obj = Candidate.find(cand_id)
     if not candidate_obj:
         messages.error(request, _("Candidate not found"))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     mails = list(Candidate.objects.values_list("email", flat=True))
     # Query the User model to check if any email is present
@@ -1653,7 +1653,7 @@ def candidate_update(request, cand_id, **kwargs):
         return render(request, "candidate/candidate_create_form.html", {"form": form})
     except (Candidate.DoesNotExist, OverflowError):
         messages.error(request, _("Candidate Does not exists.."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1667,7 +1667,7 @@ def candidate_conversion(request, cand_id, **kwargs):
     candidate_obj = Candidate.find(cand_id)
     if not candidate_obj:
         messages.error(request, _("Candidate not found"))
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     cand_name = candidate_obj.name
     cand_mob = candidate_obj.mobile
     cand_job = candidate_obj.job_position_id
@@ -1712,7 +1712,7 @@ def candidate_conversion(request, cand_id, **kwargs):
             Document.objects.bulk_create(emp_document_list)
     else:
         messages.info(request, "A employee with this mail already exists")
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -2790,7 +2790,7 @@ def delete_reject_reason(request):
     for reason in reasons:
         reasons.delete()
         messages.success(request, f"{reason.title} is deleted.")
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 def extract_text_with_font_info(pdf):
@@ -3039,7 +3039,7 @@ def delete_skills(request):
     for skill in skills:
         skill.delete()
         messages.success(request, f"{skill.title} is deleted.")
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

@@ -313,7 +313,7 @@ def recruitment_delete(request, rec_id):
         messages.error(request, error)
         messages.error(request, _("You cannot delete this recruitment"))
     recruitment_obj = Recruitment.objects.all()
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -358,7 +358,7 @@ def recruitment_pipeline(request):
                         redirect=reverse("pipeline"),
                     )
 
-                return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+                return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         elif request.FILES.get("resume") is not None:
             if request.user.has_perm("add_candidate") or is_stagemanager(
                 request,
@@ -385,7 +385,7 @@ def recruitment_pipeline(request):
                         )
 
                     messages.success(request, _("Candidate added."))
-                    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+                    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
         elif request.POST.get("stage_managers") and request.user.has_perm("add_stage"):
             stage_form = StageDropDownForm(request.POST)
             if stage_form.is_valid():
@@ -412,7 +412,7 @@ def recruitment_pipeline(request):
                             redirect=reverse("pipeline"),
                         )
 
-                    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+                    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
                 messages.info(request, _("You dont have access"))
     return render(
         request,
@@ -477,7 +477,7 @@ def stage_update_pipeline(request, stage_id):
                     redirect=reverse("pipeline"),
                 )
 
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
     return render(request, "pipeline/form/stage_update.html", {"form": form})
 
@@ -541,7 +541,7 @@ def recruitment_delete_pipeline(request, rec_id):
     except Exception as error:
         messages.error(request, error)
         messages.error(request, _("Recruitment already in use."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -921,7 +921,7 @@ def stage_delete(request, stage_id):
     except Exception as error:
         messages.error(request, error)
         messages.error(request, _("You cannot delete this stage"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1138,7 +1138,7 @@ def candidate_delete(request, cand_id):
     except Exception as error:
         messages.error(request, error)
         messages.error(request, _("You cannot delete this candidate"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1150,7 +1150,7 @@ def candidate_archive(request, cand_id):
     candidate_obj = Candidate.objects.get(id=cand_id)
     candidate_obj.is_active = not candidate_obj.is_active
     candidate_obj.save()
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

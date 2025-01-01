@@ -508,7 +508,7 @@ def attendance_delete(request, obj_id):
                 )
     except (Attendance.DoesNotExist, OverflowError):
         messages.error(request, _("Attendance Does not exists.."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1370,7 +1370,7 @@ def validate_this_attendance(request, obj_id):
     except (Attendance.DoesNotExist, ValueError):
         messages.error(request, _("Attendance not found"))
 
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1406,7 +1406,7 @@ def revalidate_this_attendance(request, obj_id):
                 redirect=reverse("view-my-attendance") + f"?id={attendance.id}",
                 icon="refresh",
             )
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     return HttpResponse("You Cannot Request for others attendance")
 
 
@@ -1447,7 +1447,7 @@ def approve_overtime(request, obj_id):
             )
     except (Attendance.DoesNotExist, OverflowError):
         messages.error(request, _("Attendance not found"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

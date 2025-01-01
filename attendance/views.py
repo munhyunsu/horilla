@@ -375,7 +375,7 @@ def attendance_delete(request, obj_id):
         except Exception as error:
             messages.error(request, error)
             messages.error(request, _("You cannot delete this attendance"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @require_http_methods(["POST"])
@@ -608,7 +608,7 @@ def attendance_overtime_delete(request, obj_id):
     except Exception as e:
         messages.error(request, e)
         messages.error(request, _("You cannot delete this attendance OT"))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1091,7 +1091,7 @@ def validate_this_attendance(request, obj_id):
             redirect=reverse("view-my-attendance"),
             icon="checkmark",
         )
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     return HttpResponse("You Dont Have Permission")
 
 
@@ -1124,7 +1124,7 @@ def revalidate_this_attendance(request, obj_id):
                 redirect=reverse("view-my-attendance"),
                 icon="refresh",
             )
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     return HttpResponse("You Cannot Request for others attendance")
 
 
@@ -1151,7 +1151,7 @@ def approve_overtime(request, obj_id):
             redirect=reverse("attendance-overtime-view"),
             icon="checkmark",
         )
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required

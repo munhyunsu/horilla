@@ -143,7 +143,7 @@ def dashboard_approve_overtimes(request):
     user's subordinate permissions.
     """
     main_dashboard = None
-    referer = request.META.get("HTTP_REFERER", "/")
+    referer = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
     referer = "/" + "/".join(referer.split("/")[3:])
     if referer == "/":
         main_dashboard = True
@@ -187,7 +187,7 @@ def dashboard_validate_attendances(request):
     subordinates, as determined by the user's permissions, are included in the results.
     """
     main_dashboard = None
-    referer = request.META.get("HTTP_REFERER", "/")
+    referer = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
     referer = "/" + "/".join(referer.split("/")[3:])
     if referer == "/":
         main_dashboard = True

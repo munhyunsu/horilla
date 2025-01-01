@@ -5,6 +5,7 @@ from pyexpat.errors import messages
 
 from employee.models import EmployeeWorkInformation
 from pms.models import EmployeeObjective, Objective
+from horilla import settings
 
 decorator_with_arguments = (
     lambda decorator: lambda *args, **kwargs: lambda func: decorator(
@@ -31,7 +32,7 @@ def pms_manager_can_enter(function, perm):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():
@@ -67,7 +68,7 @@ def pms_owner_and_manager_can_enter(function, perm):
             return function(request, *args, **kwargs)
         else:
             messages.info(request, "You dont have permission.")
-            previous_url = request.META.get("HTTP_REFERER", "/")
+            previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
             script = f'<script>window.location.href = "{previous_url}"</script>'
             key = "HTTP_HX_REQUEST"
             if key in request.META.keys():

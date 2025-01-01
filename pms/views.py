@@ -1127,7 +1127,7 @@ def archive_employee_objective(request, emp_obj_id):
         emp_objective.archive = True
         emp_objective.save()
         messages.success(request, _("Objective archived successfully!."))
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -1153,7 +1153,7 @@ def delete_employee_objective(request, emp_obj_id):
         objective.assignees.remove(employee)
         messages.success(request, _("Objective deleted successfully!."))
     if not single_view:
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}"))
     else:
         return HttpResponse("<script>window.location.reload()</script>")
 
@@ -1763,7 +1763,7 @@ def feedback_detailed_view(request, id, **kwargs):
         return render(request, "feedback/feedback_detailed_view.html", context)
     else:
         messages.info(request, _("You dont have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
         script = f'<script>window.location.href = "{previous_url}"</script>'
         key = "HTTP_HX_REQUEST"
         if key in request.META.keys():
@@ -1798,7 +1798,7 @@ def feedback_detailed_view_answer(request, id, emp_id):
         return render(request, "feedback/feedback_detailed_view_answer.html", context)
     else:
         messages.info(request, _("You dont have permission."))
-        previous_url = request.META.get("HTTP_REFERER", "/")
+        previous_url = request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}")
         script = f'<script>window.location.href = "{previous_url}"</script>'
         key = "HTTP_HX_REQUEST"
         if key in request.META.keys():
