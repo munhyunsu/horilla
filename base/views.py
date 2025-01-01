@@ -758,11 +758,11 @@ def logout_user(request):
     if request.user:
         logout(request)
     response = HttpResponse()
-    response.content = """
+    response.content = f"""
         <script>
             localStorage.clear();
         </script>
-        <meta http-equiv="refresh" content="0;url=/login">
+        <meta http-equiv="refresh" content="0;url=/{settings.URL_PREFIX}login">
     """
 
     return response
