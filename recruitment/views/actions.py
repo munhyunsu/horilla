@@ -30,6 +30,7 @@ from recruitment.filters import StageFilter
 from recruitment.forms import StageCreationForm
 from recruitment.models import Candidate, Recruitment, Stage, StageNote
 from recruitment.views.paginator_qry import paginator_qry
+from horilla import settings
 
 
 @login_required
@@ -203,7 +204,7 @@ def stage_delete(request, stage_id):
     hx_request = request.META.get("HTTP_HX_REQUEST")
     hx_current_url = request.META.get("HTTP_HX_CURRENT_URL")
     if hx_request and hx_request == "true" and "stage-view" in hx_current_url:
-        return redirect(f"/recruitment/stage-data/{recruitment_id}/")
+        return redirect(f"/{settings.URL_PREFIX}recruitment/stage-data/{recruitment_id}/")
     return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
 
 

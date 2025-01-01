@@ -63,6 +63,7 @@ from leave.methods import (
 from leave.models import *
 from leave.threading import LeaveMailSendThread
 from notifications.signals import notify
+from horilla import settings
 
 
 def generate_error_report(error_list, error_data, file_name):
@@ -315,9 +316,9 @@ def leave_type_delete(request, obj_id):
                 json.loads(instances_ids), obj_id
             )
             return redirect(
-                f"/leave/leave-type-individual-view/{next_instance}?instances_ids={instances_list}"
+                f"/{settings.URL_PREFIX}leave/leave-type-individual-view/{next_instance}?instances_ids={instances_list}"
             )
-        return redirect(f"/leave/type-filter?{request.GET.urlencode()}")
+        return redirect(f"/{settings.URL_PREFIX}leave/type-filter?{request.GET.urlencode()}")
     return redirect(leave_type_view)
 
 
@@ -836,7 +837,7 @@ def leave_request_delete(request, id):
     if hx_target == "leaveRequest":
         leave_requests = LeaveRequest.objects.all()
         if leave_requests.exists():
-            return redirect(f"/leave/request-filter?{previous_data}")
+            return redirect(f"/{settings.URL_PREFIX}leave/request-filter?{previous_data}")
         else:
             return HttpResponse("<script>window.location.reload();</script>")
     return redirect(leave_request_view)
@@ -949,7 +950,7 @@ def leave_request_approve(request, id, emp_id=None):
         messages.error(request, _("Leave request already approved"))
     if emp_id is not None:
         employee_id = emp_id
-        return redirect(f"/employee/employee-view/{employee_id}/")
+        return redirect(f"/{settings.URL_PREFIX}employee/employee-view/{employee_id}/")
     return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
 
 
@@ -1091,7 +1092,7 @@ def leave_request_cancel(request, id, emp_id=None):
 
             if emp_id is not None:
                 employee_id = emp_id
-                return redirect(f"/employee/employee-view/{employee_id}/")
+                return redirect(f"/{settings.URL_PREFIX}employee/employee-view/{employee_id}/")
             return HttpResponse("<script>location.reload();</script>")
     return render(
         request, "leave/leave_request/cancel_form.html", {"form": form, "id": id}
@@ -1587,12 +1588,12 @@ def leave_assign_delete(request, obj_id):
         if obj_id in instances_list:
             instances_list.remove(obj_id)
         return redirect(
-            f"/leave/available-leave-single-view/{next_instance}/?{pd}&instances_ids={json.dumps(instances_list)}"
+            f"/{settings.URL_PREFIX}leave/available-leave-single-view/{next_instance}/?{pd}&instances_ids={json.dumps(instances_list)}"
         )
 
     if not AvailableLeave.objects.exists():
         return HttpResponse("<script>window.location.reload()</script>")
-    return redirect(f"/leave/assign-filter?{pd}")
+    return redirect(f"/{settings.URL_PREFIX}leave/assign-filter?{pd}")
 
 
 @require_http_methods(["POST"])
@@ -1915,7 +1916,7 @@ def restrict_delete(request, id):
         messages.error(request, _("Related entries exists"))
     if not RestrictLeave.objects.filter():
         return HttpResponse("<script>window.location.reload();</script>")
-    return redirect(f"/leave/restrict-filter?{query_string}")
+    return redirect(f"/{settings.URL_PREFIX}leave/restrict-filter?{query_string}")
 
 
 @login_required
@@ -1947,7 +1948,7 @@ def restrict_days_bulk_delete(request):
             messages.error(request, _("Restricted Days not found"))
         except:
             messages.error(request, _("Something went wrong"))
-    return redirect(f"/leave/restrict-filter?{pd}")
+    return redirect(f"/{settings.URL_PREFIX}leave/restrict-filter?{pd}")
 
 
 @login_required
@@ -2305,7 +2306,7 @@ def user_request_delete(request, id):
     if not LeaveRequest.objects.filter(employee_id=request.user.employee_get):
         return HttpResponse("<script>window.location.reload();</script>")
     else:
-        return redirect(f"/leave/user-request-filter?{previous_data}")
+        return redirect(f"/{settings.URL_PREFIX}leave/user-request-filter?{previous_data}")
 
 
 @login_required
@@ -2341,7 +2342,7 @@ def user_leave_view(request):
         )
     except Exception:
         messages.error(request, _("User is not an employee.."))
-        return redirect("/")
+        return redirect(f"/{settings.URL_PREFIX}")
 
 
 @login_required
@@ -2372,7 +2373,7 @@ def user_leave_filter(request):
         )
     except Exception as e:
         messages.error(request, _("User is not an employee.."))
-        return redirect("/")
+        return redirect(f"/{settings.URL_PREFIX}")
 
 
 @login_required
@@ -2445,7 +2446,7 @@ def user_request_view(request):
         )
     except Exception as e:
         messages.error(request, _("User is not an employee.."))
-        return redirect("/")
+        return redirect(f"/{settings.URL_PREFIX}")
 
 
 @login_required
@@ -2538,7 +2539,7 @@ def user_request_filter(request):
         return render(request, template, context=context)
     except Exception as e:
         messages.error(request, _("User is not an employee.."))
-        return redirect("/")
+        return redirect(f"/{settings.URL_PREFIX}")
 
 
 @login_required
@@ -2571,7 +2572,7 @@ def user_request_one(request, id):
         )
     except Exception as e:
         messages.error(request, _("User has no leave request.."))
-        return redirect("/")
+        return redirect(f"/{settings.URL_PREFIX}")
 
 
 @login_required
@@ -3571,7 +3572,7 @@ def leave_allocation_request_delete(request, req_id):
     if hx_target and hx_target == "view-container":
         leave_allocations = LeaveAllocationRequest.objects.all()
         if leave_allocations.exists():
-            return redirect(f"/leave/leave-allocation-request-filter?{previous_data}")
+            return redirect(f"/{settings.URL_PREFIX}leave/leave-allocation-request-filter?{previous_data}")
         else:
             return HttpResponse("<script>location.reload();</script>")
     elif hx_target and hx_target == "objectDetailsModalW25Target":
@@ -3583,7 +3584,7 @@ def leave_allocation_request_delete(request, req_id):
             json.loads(instances_ids), req_id
         )
         return redirect(
-            f"/leave/leave-allocation-request-single-view/{next_instance}?{previous_data}"
+            f"/{settings.URL_PREFIX}leave/leave-allocation-request-single-view/{next_instance}?{previous_data}"
         )
 
     return redirect(leave_allocation_request_view)

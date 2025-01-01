@@ -57,6 +57,7 @@ from offboarding.models import (
     OffboardingTask,
     ResignationLetter,
 )
+from horilla import settings
 
 
 def pipeline_grouper(filters={}, offboardings=[]):
@@ -819,7 +820,7 @@ def delete_resignation_request(request):
     if request.META.get("HTTP_REFERER") and request.META.get("HTTP_REFERER").endswith(
         "employee-profile/"
     ):
-        return redirect("/employee/employee-profile/")
+        return redirect("/{settings.URL_PREFIX}employee/employee-profile/")
     else:
         return redirect(request_view)
 

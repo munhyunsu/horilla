@@ -126,6 +126,7 @@ from horilla_documents.forms import (
 )
 from horilla_documents.models import Document, DocumentRequest
 from notifications.signals import notify
+from horilla import settings
 
 
 def return_none(a, b):
@@ -925,7 +926,7 @@ def employee_profile_update(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, _("Profile updated."))
-    return redirect("/employee/employee-profile")
+    return redirect(f"/{settings.URL_PREFIX}employee/employee-profile")
 
 
 @login_required
@@ -937,7 +938,7 @@ def employee_user_group_assign_delete(_, obj_id):
     """
     user = User.objects.get(id=obj_id)
     user.groups.clear()
-    return redirect("/employee/employee-user-group-assign-view")
+    return redirect(f"/{settings.URL_PREFIX}employee/employee-user-group-assign-view")
 
 
 def paginator_qry(qryset, page_number):
@@ -1275,7 +1276,7 @@ def save_employee_bulk_update(request):
                     )
                 ),
             )
-    return redirect("/employee/employee-view/?view=list")
+    return redirect(f"/{settings.URL_PREFIX}employee/employee-view/?view=list")
 
 
 @login_required
@@ -1565,7 +1566,7 @@ def employee_create_update_personal_info(request, obj_id=None):
                 ).first()
             )
             return redirect(
-                f"employee-view-update/{form.instance.id}/",
+                f"/{settings.URL_PREFIX}employee-view-update/{form.instance.id}/",
                 data={"form": form, "work_form": work_form, "bank_form": bank_form},
             )
         return HttpResponse(
@@ -1867,7 +1868,7 @@ def employee_delete(request, obj_id):
         error_message = str(error_message)
         request.session["error_message"] = error_message
         return redirect(employee_view)
-    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/view={view}"))
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", f"/{settings.URL_PREFIX}view={view}"))
 
 
 @login_required
@@ -2081,7 +2082,7 @@ def replace_employee(request, emp_id):
     related_models = employee.get_archive_condition()
     if title == "Change the Designations":
         messages.success(request, _("Designation changed."))
-        return redirect("/offboarding/offboarding-pipeline")
+        return redirect(f"/{settings.URL_PREFIX}offboarding/offboarding-pipeline")
     if related_models is False and title != "Change the Designations":
         employee.is_active = False
         employee.save()
@@ -2311,7 +2312,7 @@ def employee_work_information_delete(request, obj_id):
     except ProtectedError:
         messages.error(request, _("You cannot delete this Employee work information"))
 
-    return redirect("/employee/employee-work-information-view")
+    return redirect(f"/{settings.URL_PREFIX}employee/employee-work-information-view")
 
 
 @login_required
@@ -3039,7 +3040,7 @@ def add_note(request, emp_id=None):
             note.note_files.set(attachment_ids)
             messages.success(request, _("Note added successfully.."))
             response = render(request, "tabs/add_note.html", {"form": form})
-            return redirect(f"/employee/note-tab/{emp_id}")
+            return redirect(f"/{settings.URL_PREFIX}employee/note-tab/{emp_id}")
 
     employee_obj = Employee.objects.get(id=emp_id)
     return render(
@@ -3120,7 +3121,7 @@ def add_more_employee_files(request, note_id):
             files_ids.append(instance.id)
 
             note.note_files.add(instance.id)
-    return redirect(f"/employee/note-tab/{employee_id}")
+    return redirect(f"/{settings.URL_PREFIX}employee/note-tab/{employee_id}")
 
 
 @login_required

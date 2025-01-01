@@ -95,6 +95,7 @@ from pms.models import (
     QuestionOptions,
     QuestionTemplate,
 )
+from horilla import settings
 
 logger = logging.getLogger(__name__)
 
@@ -3213,8 +3214,8 @@ def delete_employee_keyresult(request, kr_id):
     # objective.assignees.remove(employee)
     messages.success(request, _("Objective deleted successfully!."))
     if request.GET.get("dashboard"):
-        return redirect(f"/pms/dashboard-view")
-    return redirect(f"/pms/objective-detailed-view/{objective.id}")
+        return redirect(f"/{settings.URL_PREFIX}pms/dashboard-view")
+    return redirect(f"/{settings.URL_PREFIX}pms/objective-detailed-view/{objective.id}")
 
 
 @login_required
@@ -3232,7 +3233,7 @@ def employee_keyresult_update_status(request, kr_id):
     emp_kr.save()
     messages.success(request, _("Key result sattus changed to {}.").format(status))
     return redirect(
-        f"/pms/kr-table-view/{emp_kr.employee_objective_id.id}?&objective_id={emp_kr.employee_objective_id.objective_id.id}"
+        f"/{settings.URL_PREFIX}pms/kr-table-view/{emp_kr.employee_objective_id.id}?&objective_id={emp_kr.employee_objective_id.objective_id.id}"
     )
 
 

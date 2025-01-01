@@ -73,6 +73,7 @@ from horilla.group_by import group_by_queryset
 from horilla.horilla_settings import HORILLA_DATE_FORMATS
 from horilla.methods import horilla_users_with_perms
 from notifications.signals import notify
+from horilla import settings
 
 
 def asset_del(request, asset):
@@ -306,12 +307,12 @@ def asset_delete(request, asset_id):
     if status == "In use":
         messages.info(request, _("Asset is in use"))
         return redirect(
-            f"/asset/asset-information/{asset.id}/?{previous_data}&requests_ids={instances_list}&asset_info=true"
+            f"/{settings.URL_PREFIX}asset/asset-information/{asset.id}/?{previous_data}&requests_ids={instances_list}&asset_info=true"
         )
     elif asset_allocation:
         messages.error(request, _("Asset is used in allocation!."))
         return redirect(
-            f"/asset/asset-information/{asset.id}/?{previous_data}&requests_ids={instances_list}&asset_info=true"
+            f"/{settings.URL_PREFIX}asset/asset-information/{asset.id}/?{previous_data}&requests_ids={instances_list}&asset_info=true"
         )
     else:
         asset_del(request, asset)
@@ -320,7 +321,7 @@ def asset_delete(request, asset_id):
 
         if Asset.find(asset.id):
             return redirect(
-                f"/asset/asset-information/{asset.id}/?{previous_data}&requests_ids={instances_list}&asset_info=true"
+                f"/{settings.URL_PREFIX}asset/asset-information/{asset.id}/?{previous_data}&requests_ids={instances_list}&asset_info=true"
             )
         else:
             instances_ids = request.GET.get("requests_ids")
@@ -331,7 +332,7 @@ def asset_delete(request, asset_id):
         json.loads(instances_ids), asset_id
     )
     return redirect(
-        f"/asset/asset-information/{next_instance}/?{previous_data}&requests_ids={instances_list}&asset_info=true"
+        f"/{settings.URL_PREFIX}asset/asset-information/{next_instance}/?{previous_data}&requests_ids={instances_list}&asset_info=true"
     )
 
 
@@ -444,7 +445,7 @@ def delete_asset_category(request, cat_id):
         messages.error(request, _("Assets are located within this category."))
     if not AssetCategory.objects.filter():
         return HttpResponse("<script>window.location.reload();</script>")
-    return redirect(f"/asset/asset-category-view-search-filter?{previous_data}")
+    return redirect(f"/{settings.URL_PREFIX}asset/asset-category-view-search-filter?{previous_data}")
 
 
 def filter_pagination_asset_category(request):
@@ -677,7 +678,7 @@ def reject_request_return(request, asset_request, req_id):
     referrer = "/" + "/".join(referrer.split("/")[3:])
     if referrer.startswith("/employee/employee-view/"):
         return redirect(
-            f"/asset/asset-request-tab/{asset_request.requested_employee_id.id}"
+            f"/{settings.URL_PREFIX}asset/asset-request-tab/{asset_request.requested_employee_id.id}"
         )
 
     if referrer.endswith("/asset/dashboard/") or referrer == "/":
@@ -1500,7 +1501,7 @@ def asset_batch_number_delete(request, batch_id):
         )
         if assigned_batch_number:
             messages.error(request, _("Batch number in-use"))
-            return redirect(f"/asset/asset-batch-number-search?{previous_data}")
+            return redirect(f"/{settings.URL_PREFIX}asset/asset-batch-number-search?{previous_data}")
         asset_batch_number.delete()
         messages.success(request, _("Batch number deleted"))
     except AssetLot.DoesNotExist:
@@ -1509,7 +1510,7 @@ def asset_batch_number_delete(request, batch_id):
         messages.error(request, _("You cannot delete this Batch number."))
     if not AssetLot.objects.filter():
         return HttpResponse("<script>location.reload();</script>")
-    return redirect(f"/asset/asset-batch-number-search?{previous_data}")
+    return redirect(f"/{settings.URL_PREFIX}asset/asset-batch-number-search?{previous_data}")
 
 
 @login_required

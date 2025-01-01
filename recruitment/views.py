@@ -46,6 +46,7 @@ from recruitment.forms import (
 )
 from recruitment.methods import recruitment_manages
 from recruitment.models import Candidate, Recruitment, Stage, StageNote
+from horilla import settings
 
 logger = logging.getLogger(__name__)
 
@@ -931,7 +932,7 @@ def candidate(request):
     """
     form = CandidateCreationForm()
     open_recruitment = Recruitment.objects.filter(closed=False, is_active=True)
-    path = "/recruitment/candidate-view"
+    path = f"/{settings.URL_PREFIX}recruitment/candidate-view"
     if request.method == "POST":
         form = CandidateCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -944,7 +945,7 @@ def candidate(request):
             # when creating new candidate from onboarding view
             if request.GET.get("onboarding") == "True":
                 candidate_obj.hired = True
-                path = "/onboarding/candidates-view"
+                path = f"/{settings.URL_PREFIX}onboarding/candidates-view"
             candidate_obj.save()
             messages.success(request, _("Candidate added."))
             return redirect(path)
@@ -1092,7 +1093,7 @@ def candidate_update(request, cand_id):
     """
     candidate_obj = Candidate.objects.get(id=cand_id)
     form = CandidateCreationForm(instance=candidate_obj)
-    path = "/recruitment/candidate-view"
+    path = f"/{settings.URL_PREFIX}recruitment/candidate-view"
     if request.method == "POST":
         form = CandidateCreationForm(
             request.POST, request.FILES, instance=candidate_obj
@@ -1115,7 +1116,7 @@ def candidate_update(request, cand_id):
                     )
             if request.GET.get("onboarding") == "True":
                 candidate_obj.hired = True
-                path = "/onboarding/candidates-view"
+                path = f"/{settings.URL_PREFIX}onboarding/candidates-view"
             candidate_obj.save()
             messages.success(request, _("Candidate Updated Successfully."))
             return redirect(path)

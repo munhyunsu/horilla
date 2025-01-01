@@ -58,6 +58,7 @@ from payroll.models.models import (
     ReimbursementrequestComment,
 )
 from payroll.models.tax_models import PayrollSettings
+from horilla import settings
 
 # Create your views here.
 
@@ -172,7 +173,7 @@ def contract_status_update(request, contract_id):
                     request, _("You selected the wrong option for contract status.")
                 )
 
-            return redirect(f"/payroll/contract-filter?{previous_data}")
+            return redirect(f"/{settings.URL_PREFIX}payroll/contract-filter?{previous_data}")
 
         contract_form = ContractForm(request.POST, request.FILES, instance=contract)
         if contract_form.is_valid():
@@ -274,12 +275,12 @@ def contract_delete(request, contract_id):
                 )
                 if contract_id in instances_list:
                     instances_list.remove(contract_id)
-                urls = f"/payroll/single-contract-view/{next_instance}/"
+                urls = f"/{settings.URL_PREFIX}payroll/single-contract-view/{next_instance}/"
                 params = f"?{previous_data}&instances_ids={instances_list}"
                 return redirect(urls + params)
             return HttpResponse("<script>window.location.reload();</script>")
         else:
-            return redirect(f"/payroll/contract-filter?{request.GET.urlencode()}")
+            return redirect(f"/{settings.URL_PREFIX}payroll/contract-filter?{request.GET.urlencode()}")
     except Contract.DoesNotExist:
         messages.error(request, _("Contract not found."))
     except ProtectedError:

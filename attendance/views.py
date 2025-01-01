@@ -66,6 +66,7 @@ from horilla.decorators import (
     permission_required,
 )
 from notifications.signals import notify
+from horilla import settings
 
 # Create your views here.
 
@@ -432,7 +433,7 @@ def view_my_attendance(request):
     try:
         employee = user.employee_get
     except:
-        return redirect("/employee/employee-profile")
+        return redirect(f"/{settings.URL_PREFIX}employee/employee-profile")
     employee = user.employee_get
     employee_attendances = employee.employee_attendances.all()
     filter = AttendanceFilters()
@@ -678,7 +679,7 @@ def attendance_activity_delete(request, obj_id):
     except Exception as e:
         messages.error(request, e)
         messages.error(request, _("You cannot delete this activity"))
-    return redirect("/attendance/attendance-activity-view")
+    return redirect(f"/{settings.URL_PREFIX}attendance/attendance-activity-view")
 
 
 def clock_in_attendance_and_activity(
@@ -974,7 +975,7 @@ def late_come_early_out_delete(request, obj_id):
         messages.error(request, e)
         messages.error(request, _("You cannot delete this Late-in early-out"))
 
-    return redirect("/attendance/late-come-early-out-view")
+    return redirect(f"/{settings.URL_PREFIX}attendance/late-come-early-out-view")
 
 
 @login_required
@@ -1033,7 +1034,7 @@ def validation_condition_delete(request, obj_id):
     except Exception as e:
         messages.error(request, e)
         messages.error(request, _("You cannot delete this validation condition."))
-    return redirect("/attendance/validation-condition-view")
+    return redirect(f"/{settings.URL_PREFIX}attendance/validation-condition-view")
 
 
 @login_required

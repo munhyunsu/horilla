@@ -117,6 +117,7 @@ from recruitment.models import (
     StageNote,
 )
 from recruitment.views.paginator_qry import paginator_qry
+from horilla import settings
 
 
 def is_stagemanager(request, stage_id=False):
@@ -1065,7 +1066,7 @@ def add_more_individual_files(request, id):
             files_ids.append(instance.id)
             note.stage_files.add(instance.id)
         messages.success(request, _("Files uploaded successfully"))
-    return redirect(f"/recruitment/add-note/{note.candidate_id.id}/")
+    return redirect(f"/{settings.URL_PREFIX}recruitment/add-note/{note.candidate_id.id}/")
 
 
 @login_required
@@ -1297,7 +1298,7 @@ def candidate(request):
     """
     form = CandidateCreationForm()
     open_recruitment = Recruitment.objects.filter(closed=False, is_active=True)
-    path = "/recruitment/candidate-view"
+    path = f"/{settings.URL_PREFIX}recruitment/candidate-view"
     if request.method == "POST":
         form = CandidateCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -1311,7 +1312,7 @@ def candidate(request):
             # when creating new candidate from onboarding view
             if request.GET.get("onboarding") == "True":
                 candidate_obj.hired = True
-                path = "/onboarding/candidates-view"
+                path = f"/{settings.URL_PREFIX}onboarding/candidates-view"
             if form.data.get("job_position_id"):
                 candidate_obj.save()
                 messages.success(request, _("Candidate added."))
@@ -1621,7 +1622,7 @@ def candidate_update(request, cand_id, **kwargs):
     try:
         candidate_obj = Candidate.objects.get(id=cand_id)
         form = CandidateCreationForm(instance=candidate_obj)
-        path = "/recruitment/candidate-view"
+        path = f"/{settings.URL_PREFIX}recruitment/candidate-view"
         if request.method == "POST":
             form = CandidateCreationForm(
                 request.POST, request.FILES, instance=candidate_obj
@@ -1645,7 +1646,7 @@ def candidate_update(request, cand_id, **kwargs):
                         )
                 if request.GET.get("onboarding") == "True":
                     candidate_obj.hired = True
-                    path = "/onboarding/candidates-view"
+                    path = f"/{settings.URL_PREFIX}onboarding/candidates-view"
                 candidate_obj.save()
                 messages.success(request, _("Candidate Updated Successfully."))
                 return redirect(path)

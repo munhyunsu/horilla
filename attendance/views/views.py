@@ -126,6 +126,7 @@ from horilla.decorators import (
     permission_required,
 )
 from notifications.signals import notify
+from horilla import settings
 
 
 def attendance_validate(attendance):
@@ -560,7 +561,7 @@ def attendance_bulk_delete(request):
         messages.success(request, f"{success_count} attendances deleted successfully.")
     for error in error_messages:
         messages.error(request, error)
-    return redirect("/attendance/attendance-search")
+    return redirect(f"/{settings.URL_PREFIX}attendance/attendance-search")
 
 
 @login_required
@@ -572,7 +573,7 @@ def view_my_attendance(request):
     try:
         employee = user.employee_get
     except:
-        return redirect("/employee/employee-profile")
+        return redirect(f"/{settings.URL_PREFIX}employee/employee-profile")
     employee = user.employee_get
     employee_attendances = employee.employee_attendances.all()
     filter = AttendanceFilters()
@@ -736,7 +737,7 @@ def attendance_overtime_delete(request, obj_id):
     if hx_target and hx_target == "ot-table":
         hour_account = AttendanceOverTime.objects.all()
         if hour_account.exists():
-            return redirect(f"/attendance/attendance-overtime-search?{previous_data}")
+            return redirect(f"/{settings.URL_PREFIX}attendance/attendance-overtime-search?{previous_data}")
         else:
             return HttpResponse("<script>window.location.reload()</script>")
     elif hx_target:
@@ -858,7 +859,7 @@ def attendance_activity_delete(request, obj_id):
     except ProtectedError:
         messages.error(request, _("You cannot delete this activity"))
     if not request.GET.get("instances_ids"):
-        return redirect(f"/attendance/attendance-activity-search?{previous_data}")
+        return redirect(f"/{settings.URL_PREFIX}attendance/attendance-activity-search?{previous_data}")
     else:
         instances_ids = request.GET.get("instances_ids")
         instances_list = json.loads(instances_ids)
@@ -868,7 +869,7 @@ def attendance_activity_delete(request, obj_id):
             json.loads(instances_ids), obj_id
         )
         return redirect(
-            f"/attendance/attendance-activity-single-view/{next_instance}/?{previous_data}&instances_ids={instances_list}"
+            f"/{settings.URL_PREFIX}attendance/attendance-activity-single-view/{next_instance}/?{previous_data}&instances_ids={instances_list}"
         )
 
 
@@ -1166,7 +1167,7 @@ def late_come_early_out_delete(request, obj_id):
     except ProtectedError:
         messages.error(request, _("You cannot delete this Late-in early-out"))
     if not request.GET.get("instances_ids"):
-        return redirect(f"/attendance/late-come-early-out-search?{previous_data}")
+        return redirect(f"/{settings.URL_PREFIX}attendance/late-come-early-out-search?{previous_data}")
     else:
         instances_ids = request.GET.get("instances_ids")
         instances_list = json.loads(instances_ids)
@@ -1176,7 +1177,7 @@ def late_come_early_out_delete(request, obj_id):
             json.loads(instances_ids), obj_id
         )
         return redirect(
-            f"/attendance/late-in-early-out-single-view/{next_instance}/?{previous_data}&instances_ids={instances_list}"
+            f"/{settings.URL_PREFIX}attendance/late-in-early-out-single-view/{next_instance}/?{previous_data}&instances_ids={instances_list}"
         )
 
 
@@ -1270,7 +1271,7 @@ def validation_condition_delete(request, obj_id):
         messages.error(request, _("validation condition Does not exists.."))
     except ProtectedError:
         messages.error(request, _("You cannot delete this validation condition."))
-    return redirect("/attendance/validation-condition-view")
+    return redirect("/{settings.URL_PREFIX}attendance/validation-condition-view")
 
 
 @login_required

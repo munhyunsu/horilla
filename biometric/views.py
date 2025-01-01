@@ -35,6 +35,7 @@ from horilla.decorators import (
 )
 from horilla.filters import HorillaPaginator
 from horilla.horilla_settings import BIO_DEVICE_THREADS
+from horilla import settings
 
 from .cosec import COSECBiometric
 from .filters import BiometricDeviceFilter
@@ -612,7 +613,7 @@ def biometric_device_unschedule(request, device_id):
     device.is_scheduler = False
     device.save()
     messages.success(request, _("Biometric device unscheduled successfully"))
-    return redirect(f"/biometric/search-devices?{previous_data}")
+    return redirect(f"/{settings.URL_PREFIX}biometric/search-devices?{previous_data}")
 
 
 @login_required
@@ -685,7 +686,7 @@ def biometric_device_archive(request, device_id):
     device_obj.save()
     message = _("archived") if not device_obj.is_active else _("un-archived")
     messages.success(request, _("Device is %(message)s") % {"message": message})
-    return redirect(f"/biometric/search-devices?{previous_data}")
+    return redirect(f"{settings.URL_PREFIX}/biometric/search-devices?{previous_data}")
 
 
 @login_required
@@ -709,7 +710,7 @@ def biometric_device_delete(request, device_id):
     device.delete()
     previous_data = request.GET.urlencode()
     messages.success(request, _("Biometric device deleted successfully."))
-    return redirect(f"/biometric/search-devices?{previous_data}")
+    return redirect(f"{settings.URL_PREFIX}/biometric/search-devices?{previous_data}")
 
 
 @login_required
@@ -1332,7 +1333,7 @@ def enable_cosec_face_recognition(request, user_id, device_id):
             messages.error(request, _("Something went wrong when enabling face"))
     else:
         messages.error(request, _("Device not found"))
-    return redirect(f"/biometric/biometric-device-employees/{device_id}/")
+    return redirect(f"/{settings.URL_PREFIX}biometric/biometric-device-employees/{device_id}/")
 
 
 @login_required

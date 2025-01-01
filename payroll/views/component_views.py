@@ -87,6 +87,7 @@ from payroll.models.models import (
 )
 from payroll.threadings.mail import MailSendThread
 from payroll.views.views import view_created_payslip
+from horilla import settings
 
 
 def return_none(a, b):
@@ -511,7 +512,7 @@ def delete_allowance(request, allowance_id):
             params = f"?{previous_data}&instances_ids={instances_list}"
             return redirect(url + params)
 
-    return redirect(f"/payroll/filter-allowance?{previous_data}")
+    return redirect(f"/{settings.URL_PREFIX}payroll/filter-allowance?{previous_data}")
 
 
 @login_required

@@ -32,6 +32,7 @@ from employee.models import (
 )
 from horilla.decorators import hx_request_required, login_required, permission_required
 from notifications.signals import notify
+from horilla import settings
 
 
 @login_required
@@ -361,7 +362,7 @@ def remove_employee_disciplinary_action(request, action_id, emp_id):
     messages.success(
         request, _("Employee removed from disciplinary action successfully.")
     )
-    return redirect(f"/employee/disciplinary-filter-view?click_id={dis_action.id}")
+    return redirect(f"/{settings.URL_PREFIX}employee/disciplinary-filter-view?click_id={dis_action.id}")
 
 
 @login_required

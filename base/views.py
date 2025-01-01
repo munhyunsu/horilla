@@ -179,6 +179,7 @@ from horilla_audit.forms import HistoryTrackingFieldsForm
 from horilla_audit.models import AccountBlockUnblock, AuditTag, HistoryTrackingFields
 from notifications.models import Notification
 from notifications.signals import notify
+from horilla import settings
 
 
 def custom404(request):
@@ -263,7 +264,7 @@ def load_demo_database(request):
             else:
                 messages.error(request, _("Database Authentication Failed"))
         return redirect(home)
-    return redirect("/")
+    return redirect(f"/{settings.URL_PREFIX}")
 
 
 def initialize_database(request):
@@ -291,7 +292,7 @@ def initialize_database(request):
                 return HttpResponse("<script>window.location.reload()</script>")
         return render(request, "initialize_database/horilla_user.html")
     else:
-        return redirect("/")
+        return redirect(f"/{settings.URL_PREFIX}")
 
 
 @hx_request_required
@@ -578,7 +579,7 @@ def login_user(request):
                     request,
                     _("Access Denied: Your login credentials are currently blocked."),
                 )
-            return redirect("/login")
+            return redirect(f"/{settings.URL_PREFIX}login")
         if user.employee_get.is_active == False:
             messages.warning(
                 request,
@@ -586,7 +587,7 @@ def login_user(request):
                     "This user is archived. Please contact the manager for more information."
                 ),
             )
-            return redirect("/login")
+            return redirect(f"/{settings.URL_PREFIX}login")
         login(request, user)
         messages.success(request, _("Login Success"))
         if next_url:
@@ -594,7 +595,7 @@ def login_user(request):
             if params:
                 url += f"?{params}"
             return redirect(url)
-        return redirect("/")
+        return redirect(f"/{settings.URL_PREFIX}")
     return render(
         request, "login.html", {"initialize_database": initialize_database_condition()}
     )
@@ -1167,7 +1168,7 @@ def object_delete(request, obj_id, **kwargs):
             _("This {} is already in use for {}.").format(instance, model_names_str),
         ),
 
-    if apps.is_installed("pms") and redirect_path == "/pms/filter-key-result/":
+    if apps.is_installed("pms") and redirect_path == f"/{settings.URL_PREFIX}pms/filter-key-result/":
         KeyResult = get_horilla_model_class(app_label="pms", model="keyresult")
         key_results = KeyResult.objects.all()
         if key_results.exists():
@@ -2214,7 +2215,7 @@ def rotating_work_type_assign_redirect(request, obj_id=None, employee_id=None):
     previous_data = request_copy.urlencode()
     hx_target = request.META.get("HTTP_HX_TARGET", None)
     if hx_target and hx_target == "view-container":
-        return redirect(f"/rotating-work-type-assign-view?{previous_data}")
+        return redirect(f"/{settings.URL_PREFIX}rotating-work-type-assign-view?{previous_data}")
     elif hx_target and hx_target == "objectDetailsModalTarget":
         instances_ids = request.GET.get("instances_ids")
         instances_list = json.loads(instances_ids)
@@ -2224,11 +2225,11 @@ def rotating_work_type_assign_redirect(request, obj_id=None, employee_id=None):
             json.loads(instances_ids), obj_id
         )
 
-        url = f"/rwork-individual-view/{next_instance}/"
+        url = f"/{settings.URL_PREFIX}rwork-individual-view/{next_instance}/"
         params = f"?{previous_data}&instances_ids={instances_list}"
         return redirect(url + params)
     elif hx_target and hx_target == "shift_target" and employee_id:
-        return redirect(f"/employee/shift-tab/{employee_id}")
+        return redirect(f"/{settings.URL_PREFIX}employee/shift-tab/{employee_id}")
     elif hx_target:
         return HttpResponse("<script>window.location.reload()</script>")
     else:
@@ -2872,7 +2873,7 @@ def rotating_shift_assign_redirect(request, obj_id, employee_id):
     previous_data = request_copy.urlencode()
     hx_target = request.META.get("HTTP_HX_TARGET", None)
     if hx_target and hx_target == "view-container":
-        return redirect(f"/rotating-shift-assign-view?{previous_data}")
+        return redirect(f"/{settings.URL_PREFIX}rotating-shift-assign-view?{previous_data}")
     elif hx_target and hx_target == "objectDetailsModalTarget":
         instances_ids = request.GET.get("instances_ids")
         instances_list = json.loads(instances_ids)
@@ -2881,15 +2882,15 @@ def rotating_shift_assign_redirect(request, obj_id, employee_id):
         previous_instance, next_instance = closest_numbers(
             json.loads(instances_ids), obj_id
         )
-        url = f"/rshit-individual-view/{next_instance}/"
+        url = f"/{settings.URL_PREFIX}rshit-individual-view/{next_instance}/"
         params = f"?{previous_data}&instances_ids={instances_list}"
         return redirect(url + params)
     elif hx_target and hx_target == "shift_target" and employee_id:
-        return redirect(f"/employee/shift-tab/{employee_id}")
+        return redirect(f"/{settings.URL_PREFIX}employee/shift-tab/{employee_id}")
     elif hx_target:
         return HttpResponse("<script>window.location.reload()</script>")
     else:
-        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/{settings.URL_PREFIX}"))
 
 
 @login_required
@@ -3511,14 +3512,14 @@ def handle_wtr_redirect(request, work_type_request):
         )
         return redirect(f"{url}?instances_ids={instances_ids}&dashboard={dashboard}")
 
-    if current_url == "/":
+    if current_url == f"/{settings.URL_PREFIX}":
         return redirect(reverse("dashboard-work-type-request"))
 
-    if "/work-type-request-view/" in current_url:
-        return redirect(f"/work-type-request-search?{request.GET.urlencode()}")
+    if f"/{settings.URL_PREFIX}work-type-request-view/" in current_url:
+        return redirect(f"/{settings.URL_PREFIX}work-type-request-search?{request.GET.urlencode()}")
 
-    if "/employee-view/" in current_url:
-        return redirect(f"/employee/shift-tab/{work_type_request.employee_id.id}")
+    if f"/{settings.URL_PREFIX}employee-view/" in current_url:
+        return redirect(f"/{settings.URL_PREFIX}employee/shift-tab/{work_type_request.employee_id.id}")
 
     return HttpResponse("<script>window.location.reload()</script>")
 
@@ -3774,18 +3775,18 @@ def work_type_request_delete(request, obj_id):
             json.loads(instances_ids), obj_id
         )
         return redirect(
-            f"/work-type-request-single-view/{next_instance}/?instances_ids={instances_list}"
+            f"/{settings.URL_PREFIX}work-type-request-single-view/{next_instance}/?instances_ids={instances_list}"
         )
     elif hx_target and hx_target == "view-container":
         previous_data = request.GET.urlencode()
         work_type_requests = WorkTypeRequest.objects.all()
         if work_type_requests.exists():
-            return redirect(f"/work-type-request-search?{previous_data}")
+            return redirect(f"/{settings.URL_PREFIX}work-type-request-search?{previous_data}")
         else:
             return HttpResponse("<script>window.location.reload()</script>")
 
     elif hx_target and hx_target == "shift_target" and employee:
-        return redirect(f"/employee/shift-tab/{employee.id}")
+        return redirect(f"/{settings.URL_PREFIX}employee/shift-tab/{employee.id}")
     else:
         return HttpResponse("<script>window.location.reload()</script>")
 
@@ -4736,7 +4737,7 @@ def shift_request_delete(request, id):
 
     hx_target = request.META.get("HTTP_HX_TARGET", None)
     if hx_target and hx_target == "shift_target" and shift_request.employee_id:
-        return redirect(f"/employee/shift-tab/{shift_request.employee_id.id}")
+        return redirect(f"/{settings.URL_PREFIX}employee/shift-tab/{shift_request.employee_id.id}")
     return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
 
 
@@ -6886,7 +6887,7 @@ def holiday_delete(request, obj_id):
         messages.error(request, _("Related entries exists"))
     if not Holidays.objects.filter():
         return HttpResponse("<script>window.location.reload();</script>")
-    return redirect(f"/holiday-filter?{query_string}")
+    return redirect(f"/{settings.URL_PREFIX}holiday-filter?{query_string}")
 
 
 @login_required
@@ -7081,7 +7082,7 @@ def company_leave_delete(request, id):
         messages.error(request, _("Related entries exists"))
     if not CompanyLeaves.objects.filter():
         return HttpResponse("<script>window.location.reload();</script>")
-    return redirect(f"/company-leave-filter?{query_string}")
+    return redirect(f"/{settings.URL_PREFIX}company-leave-filter?{query_string}")
 
 
 @login_required

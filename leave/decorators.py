@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 
 from leave.models import LeaveGeneralSetting
+from horilla import settings
 
 from .models import LeaveAllocationRequest
 
@@ -77,7 +78,7 @@ def leave_allocation_delete_permission(function=None, *args, **kwargs):
             return HttpResponse(script)
         except (LeaveAllocationRequest.DoesNotExist, OverflowError, ValueError):
             messages.error(request, _("Leave allocation request not found"))
-            return redirect("/leave/leave-allocation-request-view/")
+            return redirect(f"/{settings.URL_PREFIX}leave/leave-allocation-request-view/")
 
     return check_permission
 
@@ -110,7 +111,7 @@ def leave_allocation_reject_permission(function=None, *args, **kwargs):
             return HttpResponse(script)
         except (LeaveAllocationRequest.DoesNotExist, OverflowError, ValueError):
             messages.error(request, _("Leave allocation request not found"))
-            return redirect("/leave/leave-allocation-request-view/")
+            return redirect(f"/{settings.URL_PREFIX}leave/leave-allocation-request-view/")
 
     return check_permission
 
