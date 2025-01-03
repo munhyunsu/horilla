@@ -562,7 +562,7 @@ def login_user(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        next_url = request.GET.get("next", "/")
+        next_url = request.GET.get("next", f"/{settings.URL_PREFIX}")
         query_params = request.GET.dict()
         query_params.pop("next", None)
         params = urlencode(query_params)
