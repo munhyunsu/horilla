@@ -18,6 +18,7 @@ from employee.models import Employee, EmployeeGeneralSetting, EmployeeWorkInform
 from horilla import horilla_apps, settings
 from horilla.decorators import hx_request_required, login_required, permission_required
 from horilla.methods import get_horilla_model_class
+from horilla import settings
 
 
 class AllCompany:
@@ -90,7 +91,7 @@ def update_selected_company(request):
             else AllCompany()
         )
     )
-    previous_path = request.GET.get("next", "/")
+    previous_path = request.GET.get("next", f"/{settings.URL_PREFIX}")
     # Define the regex pattern for the path
     pattern = r"^/employee/employee-view/\d+/$"
     # Check if the previous path matches the pattern
