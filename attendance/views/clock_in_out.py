@@ -38,6 +38,7 @@ from base.context_processors import (
 from base.models import AttendanceAllowedIP, Company, EmployeeShiftDay
 from horilla.decorators import hx_request_required, login_required
 from horilla.horilla_middlewares import _thread_locals
+from horilla import settings
 
 
 def late_come_create(attendance):
@@ -316,11 +317,11 @@ def clock_in(request):
                 mouse_out = """ onmouseleave = "$(this).find('span').hide();$(this).find('.time-runner').show();" """
 
             return HttpResponse(
-                """
+                f"""
                 <button class="oh-btn oh-btn--warning-outline check-in mr-2"
                 {mouse_in}
                 {mouse_out}
-                    hx-get="/attendance/clock-out"
+                    hx-get="/{settings.URL_PREFIX}attendance/clock-out"
                         hx-target='#attendance-activity-container'
                         hx-swap='innerHTML'><ion-icon class="oh-navbar__clock-icon mr-2
                         text-warning"
@@ -574,11 +575,11 @@ def clock_out(request):
             mouse_in = """ onmouseenter="$(this).find('div.at-work-seconds').hide();$(this).find('span').show();" """
             mouse_out = """onmouseleave="$(this).find('div.at-work-seconds').show();$(this).find('span').hide();" """
         return HttpResponse(
-            """
+            f"""
                 <button class="oh-btn oh-btn--success-outline mr-2"
                 {mouse_in}
                 {mouse_out}
-                hx-get="/attendance/clock-in"
+                hx-get="/{settings.URL_PREFIX}attendance/clock-in"
                 hx-target='#attendance-activity-container'
                 hx-swap='innerHTML'>
                 <ion-icon class="oh-navbar__clock-icon mr-2 text-success"
