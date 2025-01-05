@@ -4403,7 +4403,7 @@ def delete_leave_comment_file(request):
     else:
         messages.warning(request, _("You don't have permission"))
         script = f"""
-            <span hx-get="/leave/leave-request-view-comment/{leave_id}/?&amp;target=leaveRequest" hx-target="#commentContainer" hx-trigger="load"></span>
+            <span hx-get="/{settings.URL_PREFIX}leave/leave-request-view-comment/{leave_id}/?&amp;target=leaveRequest" hx-target="#commentContainer" hx-trigger="load"></span>
         """
     return HttpResponse(script)
 
