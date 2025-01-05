@@ -792,9 +792,9 @@ def clock_in(request):
             end_time=end_time_sec,
         )
         return HttpResponse(
-            """
+            f"""
               <button class="oh-btn oh-btn--warning-outline "
-              hx-get="/attendance/clock-out"
+              hx-get="/{settings.URL_PREFIX}attendance/clock-out"
                   hx-target='#attendance-activity-container'
                   hx-swap='innerHTML'><ion-icon class="oh-navbar__clock-icon mr-2
                   text-warning"
@@ -888,9 +888,9 @@ def clock_out(request):
 
     clock_out_attendance_and_activity(employee=employee, date_today=date_today, now=now)
     return HttpResponse(
-        """
+        f"""
               <button class="oh-btn oh-btn--success-outline "
-              hx-get="/attendance/clock-in"
+              hx-get="/{settings.URL_PREFIX}attendance/clock-in"
               hx-target='#attendance-activity-container'
               hx-swap='innerHTML'>
               <ion-icon class="oh-navbar__clock-icon mr-2 text-success"
