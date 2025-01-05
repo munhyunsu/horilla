@@ -4233,7 +4233,7 @@ def delete_allocationrequest_comment(request, comment_id):
         messages.success(request, _("Comment deleted successfully!"))
     else:
         script = f"""
-                    <span hx-get="/leave/allocation-request-view-comment/{request_id}/" hx-target="#commentContainer" hx-trigger="load"></span>
+                    <span hx-get="/l{settings.URL_PREFIX}eave/allocation-request-view-comment/{request_id}/" hx-target="#commentContainer" hx-trigger="load"></span>
                 """
         messages.warning(request, _("You don't have permission"))
     return HttpResponse(script)
@@ -4378,7 +4378,7 @@ def delete_leaverequest_comment(request, comment_id):
     else:
         messages.warning(request, _("You don't have permission"))
         script = f"""
-            <span hx-get="/leave/leave-request-view-comment/{comment.request_id.id}/?&amp;target=leaveRequest" hx-target="#commentContainer" hx-trigger="load"></span>
+            <span hx-get="/{settings.URL_PREFIX}leave/leave-request-view-comment/{comment.request_id.id}/?&amp;target=leaveRequest" hx-target="#commentContainer" hx-trigger="load"></span>
         """
     return HttpResponse(script)
 
