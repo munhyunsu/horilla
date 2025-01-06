@@ -1,6 +1,6 @@
 {% load i18n %}
 {% if messages %}
-    <span hx-get="/pms/filter-meeting" hx-target="#meeting_list" hx-trigger="load"
+    <span hx-get="/{{url_prefix}}pms/filter-meeting" hx-target="#meeting_list" hx-trigger="load"
         hx-on-htmx-after-request="setTimeout(() => { reloadMessage();$(this).closest('.oh-modal--show').removeClass('oh-modal--show');},100);">
     </span>
 {% endif %}
