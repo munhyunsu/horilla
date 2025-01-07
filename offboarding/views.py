@@ -939,9 +939,9 @@ def enable_resignation_request(request):
     )
     if request.META.get("HTTP_HX_REQUEST"):
         return HttpResponse(
-            """
+            f"""
                             <span hx-trigger="load"
-                            hx-get="/"
+                            hx-get="/{settings.URL_PREFIX}"
                             hx-swap="outerHTML"
                             hx-select="#offboardingGenericNav"
                             hx-target="#offboardingGenericNav">
