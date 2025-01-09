@@ -5974,7 +5974,7 @@ def delete_shiftrequest_comment(request, comment_id):
         messages.success(request, _("Comment deleted successfully!"))
     else:
         messages.warning(request, _("You don't have permission"))
-        script = f"""<span hx-get="/view-shift-comment/{request_id}/" hx-trigger="load" hx-target="#commentContainer" data-target="#activitySidebar"></span>"""
+        script = f"""<span hx-get="/{settings.URL_PREFIX}view-shift-comment/{request_id}/" hx-trigger="load" hx-target="#commentContainer" data-target="#activitySidebar"></span>"""
     return HttpResponse(script)
 
 
