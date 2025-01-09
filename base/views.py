@@ -5952,7 +5952,7 @@ def delete_work_type_comment_file(request):
         messages.success(request, _("File deleted successfully"))
     else:
         messages.warning(request, _("You don't have permission"))
-        script = f"""<span hx-get="/view-work-type-comment/{request_id}/" hx-trigger="load" hx-target="#commentContainer" data-target="#activitySidebar"></span>"""
+        script = f"""<span hx-get="/{settings.URL_PREFIX}view-work-type-comment/{request_id}/" hx-trigger="load" hx-target="#commentContainer" data-target="#activitySidebar"></span>"""
     return HttpResponse(script)
 
 
