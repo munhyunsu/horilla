@@ -317,11 +317,11 @@ def clock_in(request):
                 mouse_out = """ onmouseleave = "$(this).find('span').hide();$(this).find('.time-runner').show();" """
 
             return HttpResponse(
-                f"""
+                """
                 <button class="oh-btn oh-btn--warning-outline check-in mr-2"
                 {mouse_in}
                 {mouse_out}
-                    hx-get="/{settings.URL_PREFIX}attendance/clock-out"
+                    hx-get="/{url_prefix}attendance/clock-out"
                         hx-target='#attendance-activity-container'
                         hx-swap='innerHTML'><ion-icon class="oh-navbar__clock-icon mr-2
                         text-warning"
@@ -331,6 +331,7 @@ def clock_in(request):
                 </button>
                 {script}
                 """.format(
+                    url_prefix=settings.URL_PREFIX,
                     check_out=_("Check-Out"),
                     script=script,
                     hidden_label=hidden_label,
