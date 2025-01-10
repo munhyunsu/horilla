@@ -6114,7 +6114,7 @@ def delete_worktyperequest_comment(request, comment_id):
         messages.success(request, _("Comment deleted successfully!"))
     else:
         messages.warning(request, _("You don't have permission"))
-        script = f"""<span hx-get="/view-work-type-comment/{request_id}/" hx-trigger="load" hx-target="#commentContainer" data-target="#activitySidebar"></span>"""
+        script = f"""<span hx-get="/{settings.URL_PREFIX}view-work-type-comment/{request_id}/" hx-trigger="load" hx-target="#commentContainer" data-target="#activitySidebar"></span>"""
     return HttpResponse(script)
 
 
