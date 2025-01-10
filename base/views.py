@@ -575,7 +575,7 @@ def login_user(request):
                 messages.warning(request, _("Access Denied: Your account is blocked."))
             else:
                 messages.error(request, _("Invalid username or password."))
-            return redirect(f"/{settings.URL_PREFIX}login")
+            return redirect("login")
 
         employee = getattr(user, "employee_get", None)
         if employee is None:
@@ -591,7 +591,7 @@ def login_user(request):
                     "This user is archived. Please contact the manager for more information."
                 ),
             )
-            return redirect(f"/{settings.URL_PREFIX}login")
+            return redirect("login")
 
         login(request, user)
         messages.success(request, _("Login successful."))
