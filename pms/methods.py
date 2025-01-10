@@ -4,7 +4,7 @@ from django.shortcuts import render
 from pyexpat.errors import messages
 
 from employee.models import EmployeeWorkInformation
-from pms.models import EmployeeObjective, Objective
+from pms.models import AnonymousFeedback, EmployeeObjective, Objective
 from horilla import settings
 
 decorator_with_arguments = (
@@ -113,3 +113,14 @@ def check_permission_feedback_detailed_view(request, feedback, perm):
     )
 
     return has_permission
+
+
+def get_anonymous_feedbacks(employee):
+    department = employee.get_department()
+    job_position = employee.get_job_position()
+    anonymous_feedbacks = (
+        AnonymousFeedback.objects.filter(department_id=department)
+        | AnonymousFeedback.objects.filter(job_position_id=job_position)
+        | AnonymousFeedback.objects.filter(employee_id=employee)
+    )
+    return anonymous_feedbacks

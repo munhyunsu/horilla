@@ -84,8 +84,6 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-
-    
     "simple_history.middleware.HistoryRequestMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -132,7 +130,7 @@ else:
                 "DB_NAME",
                 default=os.path.join(
                     BASE_DIR,
-                    "TestDB_Horilla.sqlite3",
+                    "TestDB.sqlite3",
                 ),
             ),
             "USER": env("DB_USER", default=""),
@@ -226,7 +224,7 @@ LOCALE_PATHS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Asia/Kolkata"
+TIME_ZONE = env("TIME_ZONE", default="Asia/Kolkata")
 
 USE_I18N = True
 

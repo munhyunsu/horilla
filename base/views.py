@@ -557,45 +557,49 @@ def initialize_job_position_delete(request, obj_id):
 
 def login_user(request):
     """
-    This method is used render login template and authenticate user
+    Handles user login and authentication.
     """
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        next_url = request.GET.get("next")
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        next_url = request.GET.get("next", "/")
         query_params = request.GET.dict()
-        if "next" in query_params:
-            del query_params["next"]
+        query_params.pop("next", None)
+        params = urlencode(query_params)
 
-        params = f"{urlencode(query_params)}"
         user = authenticate(request, username=username, password=password)
-        if user is None:
+
+        if not user:
             user_object = User.objects.filter(username=username).first()
-            is_active = user_object.is_active if user_object else None
-            if is_active is True or is_active is None:
-                messages.error(request, _("Invalid username or password."))
+            if user_object and not user_object.is_active:
+                messages.warning(request, _("Access Denied: Your account is blocked."))
             else:
-                messages.warning(
-                    request,
-                    _("Access Denied: Your login credentials are currently blocked."),
-                )
-            return redirect(f"/{settings.URL_PREFIX}login")
-        if user.employee_get.is_active == False:
+                messages.error(request, _("Invalid username or password."))
+            return redirect("login")
+
+        employee = getattr(user, "employee_get", None)
+        if employee is None:
+            messages.error(
+                request,
+                _("An employee related to this user's credentials does not exist."),
+            )
+            return redirect("login")
+        if not employee.is_active:
             messages.warning(
                 request,
                 _(
                     "This user is archived. Please contact the manager for more information."
                 ),
             )
-            return redirect(f"/{settings.URL_PREFIX}login")
+            return redirect("login")
+
         login(request, user)
-        messages.success(request, _("Login Success"))
-        if next_url:
-            url = f"{next_url}"
-            if params:
-                url += f"?{params}"
-            return redirect(url)
-        return redirect(f"/{settings.URL_PREFIX}")
+        messages.success(request, _("Login successful."))
+
+        if params:
+            next_url += f"?{params}"
+        return redirect(next_url)
+
     return render(
         request, "login.html", {"initialize_database": initialize_database_condition()}
     )
@@ -5537,8 +5541,11 @@ def add_more_approval_managers(request):
     if managers_count:
         managers_count = int(managers_count) + 1
         field_name = f"multi_approval_manager_{managers_count}"
-        form.fields[field_name] = forms.ModelChoiceField(
-            queryset=Employee.objects.all(),
+        choices = [("reporting_manager_id", _("Reporting Manager"))] + [
+            (employee.pk, str(employee)) for employee in Employee.objects.all()
+        ]
+        form.fields[field_name] = forms.ChoiceField(
+            choices=choices,
             widget=forms.Select(
                 attrs={
                     "class": "oh-select oh-select-2 mb-3",
@@ -5593,28 +5600,31 @@ def multiple_level_approval_create(request):
         department = Department.objects.get(id=dept_id)
         instance = MultipleApprovalCondition()
         if form.is_valid():
+            instance.department = department
+            instance.condition_field = condition_field
+            instance.condition_operator = condition_operator
+            instance.company_id = company
             if condition_operator != "range":
-                instance.department = department
-                instance.condition_field = condition_field
-                instance.condition_operator = condition_operator
                 instance.condition_value = condition_value
-                instance.company_id = company
             else:
-                instance.department = department
-                instance.condition_field = condition_field
-                instance.condition_operator = condition_operator
                 instance.condition_start_value = condition_start_value
                 instance.condition_end_value = condition_end_value
-                instance.company_id = company
+
             instance.save()
             sequence = 0
             for emp_id in condition_approval_managers:
                 sequence += 1
-                employee_id = int(emp_id)
+                reporting_manager = None
+                try:
+                    employee_id = int(emp_id)
+                except:
+                    employee_id = None
+                    reporting_manager = emp_id
                 MultipleApprovalManagers.objects.create(
                     condition_id=instance,
                     sequence=sequence,
                     employee_id=employee_id,
+                    reporting_manager=reporting_manager,
                 )
             form = MultipleApproveConditionForm()
             messages.success(
@@ -5633,8 +5643,11 @@ def edit_approval_managers(form, managers):
             form.initial["multi_approval_manager"] = manager.employee_id
         else:
             field_name = f"multi_approval_manager_{i}"
-            form.fields[field_name] = forms.ModelChoiceField(
-                queryset=Employee.objects.all(),
+            choices = [("reporting_manager_id", _("Reporting Manager"))] + [
+                (employee.pk, str(employee)) for employee in Employee.objects.all()
+            ]
+            form.fields[field_name] = forms.ChoiceField(
+                choices=choices,
                 label=_("Approval Manager {}").format(i),
                 widget=forms.Select(attrs={"class": "oh-select oh-select-2 mb-3"}),
                 required=False,
@@ -5666,11 +5679,17 @@ def multiple_level_approval_edit(request, condition_id):
             for key, value in request.POST.items():
                 if key.startswith("multi_approval_manager"):
                     sequence += 1
-                    employee_id = int(value)
+                    reporting_manager = None
+                    try:
+                        employee_id = int(value)
+                    except:
+                        employee_id = None
+                        reporting_manager = value
                     MultipleApprovalManagers.objects.create(
                         condition_id=instance,
                         sequence=sequence,
                         employee_id=employee_id,
+                        reporting_manager=reporting_manager,
                     )
     selected_company = request.session.get("selected_company")
     if selected_company != "all":
