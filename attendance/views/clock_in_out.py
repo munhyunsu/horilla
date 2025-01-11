@@ -576,11 +576,11 @@ def clock_out(request):
             mouse_in = """ onmouseenter="$(this).find('div.at-work-seconds').hide();$(this).find('span').show();" """
             mouse_out = """onmouseleave="$(this).find('div.at-work-seconds').show();$(this).find('span').hide();" """
         return HttpResponse(
-            f"""
+            """
                 <button class="oh-btn oh-btn--success-outline mr-2"
                 {mouse_in}
                 {mouse_out}
-                hx-get="/{settings.URL_PREFIX}attendance/clock-in"
+                hx-get="/{url_prefix}attendance/clock-in"
                 hx-target='#attendance-activity-container'
                 hx-swap='innerHTML'>
                 <ion-icon class="oh-navbar__clock-icon mr-2 text-success"
@@ -590,6 +590,7 @@ def clock_out(request):
                 </button>
                 {script}
                 """.format(
+                url_prefix=settings.URL_PREFIX,
                 check_in=_("Check-In"),
                 script=script,
                 hidden_label=hidden_label,
