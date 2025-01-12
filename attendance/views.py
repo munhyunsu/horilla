@@ -792,9 +792,9 @@ def clock_in(request):
             end_time=end_time_sec,
         )
         return HttpResponse(
-            f"""
+            """
               <button class="oh-btn oh-btn--warning-outline "
-              hx-get="/{settings.URL_PREFIX}attendance/clock-out"
+              hx-get="/{url_prefix}attendance/clock-out"
                   hx-target='#attendance-activity-container'
                   hx-swap='innerHTML'><ion-icon class="oh-navbar__clock-icon mr-2
                   text-warning"
@@ -802,6 +802,7 @@ def clock_in(request):
                <span class="hr-check-in-out-text">{check_out}</span>
               </button>
             """.format(
+                url_prefix=settings.URL_PREFIX,
                 check_out=_("Check-Out")
             )
         )
