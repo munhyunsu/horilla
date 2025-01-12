@@ -4233,7 +4233,7 @@ def delete_allocationrequest_comment(request, comment_id):
         messages.success(request, _("Comment deleted successfully!"))
     else:
         script = f"""
-                    <span hx-get="/l{settings.URL_PREFIX}eave/allocation-request-view-comment/{request_id}/" hx-target="#commentContainer" hx-trigger="load"></span>
+                    <span hx-get="/{settings.URL_PREFIX}leave/allocation-request-view-comment/{request_id}/" hx-target="#commentContainer" hx-trigger="load"></span>
                 """
         messages.warning(request, _("You don't have permission"))
     return HttpResponse(script)
