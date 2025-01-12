@@ -889,9 +889,9 @@ def clock_out(request):
 
     clock_out_attendance_and_activity(employee=employee, date_today=date_today, now=now)
     return HttpResponse(
-        f"""
+        """
               <button class="oh-btn oh-btn--success-outline "
-              hx-get="/{settings.URL_PREFIX}attendance/clock-in"
+              hx-get="/{url_prefix}attendance/clock-in"
               hx-target='#attendance-activity-container'
               hx-swap='innerHTML'>
               <ion-icon class="oh-navbar__clock-icon mr-2 text-success"
@@ -899,6 +899,7 @@ def clock_out(request):
                <span class="hr-check-in-out-text">{check_in}</span>
               </button>
             """.format(
+            url_prefix=settings.URL_PREFIX,
             check_in=_("Check-In")
         )
     )
