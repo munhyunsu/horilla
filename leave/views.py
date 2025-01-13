@@ -4259,7 +4259,7 @@ def delete_allocation_comment_file(request):
     else:
         messages.warning(request, _("You don't have permission"))
         script = f"""
-                <span hx-get='/leave/allocation-request-view-comment/{leave_id}/' hx-target='#commentContainer' hx-trigger='load'></span>
+                <span hx-get='/{settings.URL_PREFIX}leave/allocation-request-view-comment/{leave_id}/' hx-target='#commentContainer' hx-trigger='load'></span>
                 """
     return HttpResponse(script)
 
