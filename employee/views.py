@@ -671,8 +671,8 @@ def document_delete(request, id):
             )
             referrer = request.META.get("HTTP_REFERER", "")
             referrer = "/" + "/".join(referrer.split("/")[3:])
-            if referrer.startswith("/employee/employee-view/") or referrer.endswith(
-                "/employee/employee-profile/"
+            if referrer.startswith(f"/{settings.URL_PREFIX}employee/employee-view/") or referrer.endswith(
+                "/{settings.URL_PREFUX}employee/employee-profile/"
             ):
                 existing_documents = Document.objects.filter(
                     employee_id=document_first.employee_id
@@ -680,7 +680,7 @@ def document_delete(request, id):
                 if not existing_documents:
                     return HttpResponse(
                         f"""
-                            <span hx-get='/employee/document-tab/{document_first.employee_id.id}?employee_view=true'
+                            <span hx-get='/{settings.URL_PREFIX}employee/document-tab/{document_first.employee_id.id}?employee_view=true'
                             hx-target='#document_target' hx-trigger='load'></span>
                         """
                     )
