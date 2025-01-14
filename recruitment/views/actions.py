@@ -135,7 +135,7 @@ def note_delete(request, note_id):
     except ProtectedError:
         messages.error(request, _("You cannot delete this note."))
         script = f"""
-            <span hx-trigger='load' hx-get='/recruitment/view-note/{candidate_id}/' hx-target='#activitySidebar'></span>
+            <span hx-trigger='load' hx-get='/{settings.URL_PREFIX}recruitment/view-note/{candidate_id}/' hx-target='#activitySidebar'></span>
             """
     return HttpResponse(script)
 
